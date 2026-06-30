@@ -1,32 +1,46 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Roboto, Roboto_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/Layout/ThemeProvider";
-import Navbar from "./components/Layout/Navbar";
-import Footer from "./components/Layout/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const roboto = Roboto({
+  variable: "--font-roboto",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const robotoMono = Roboto_Mono({
+  variable: "--font-roboto-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
   title: "TradeJournal — Your trading journal, rebuilt.",
   description:
-    "Log trades, write analysis, and track your performance in a minimal, private workspace built for serious traders.",
+    "Log trades, write analysis, and track your performance in a minimal, private, and customizable workspace built for serious traders.",
 };
 
-// Runs before React hydrates to avoid a flash of the wrong theme
+// Runs before React hydrates to avoid a flash of the wrong theme/color-theme
 const themeScript = `
 try {
   var t = localStorage.getItem('theme');
   var dark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
   if (dark) document.documentElement.classList.add('dark');
+  var ct = localStorage.getItem('color-theme') || 'void';
+  document.documentElement.setAttribute('data-theme', ct);
 } catch(e) {}
 `;
 
@@ -37,17 +51,14 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full`}
+      data-scroll-behavior="smooth"
+      className={`${inter.variable} ${spaceGrotesk.variable} ${robotoMono.variable} h-full`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="min-h-full flex flex-col antialiased bg-background text-foreground">
-        <ThemeProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </ThemeProvider>
+      <body className="antialiased bg-background text-foreground">
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

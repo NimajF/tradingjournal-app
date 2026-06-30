@@ -1,81 +1,377 @@
 @import "tailwindcss";
+@import "./themes.css";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 /* Class-based dark mode — toggles with .dark on <html> */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Light theme */
+/* ─── Light theme ──────────────────────────────────── */
 :root {
-  --background:    #ffffff;
-  --surface:       #f6f8fa;
-  --surface-alt:   #eaeef2;
-  --border:        #d0d7de;
-  --border-muted:  #eaecef;
-  --foreground:    #1f2328;
-  --muted-fg:      #57606a;
-  --subtle-fg:     #8c959f;
-  --accent:        #1f883d;
-  --accent-hover:  #1a7f37;
-  --accent-fg:     #ffffff;
-  --accent-muted:  #dafbe1;
-  --accent-muted-fg: #1a7f37;
-  --danger:        #cf222e;
-  --hero-glow:     rgba(31, 136, 61, 0.07);
+  color-scheme: light;
+  /* Backgrounds */
+  --surface:          #ffffff;
+  --surface-alt:      #fafafa;
+  --surface-raised:   #ffffff;
+  --surface-inset:    #ececec;
+  --surface-overlay:  #ffffff;
+
+  /* Borders */
+  --border: oklch(0.922 0 0);   /* on surface (white) */
+  --border-base:      #d8d8d8;   /* on background (gray) — more visible */
+  --border-muted:     #f0f0f0;   /* very subtle, inside cards */
+
+  /* Text */
+  --muted-fg:         #6b6b6b;
+  --subtle-fg:        #767676;
+
+  /* Accent — Indigo */
+  --accent: oklch(0.97 0 0);
+  --accent-hover:     #4338ca;
+  --accent-fg:        #ffffff;
+  --accent-muted:     #eef2ff;
+  --accent-muted-fg:  #4338ca;
+  --accent-ring:      rgba(79, 70, 229, 0.2);
+
+  /* Add/create action — forest green, distinct from profit teal */
+  --add:              #15803d;
+  --add-hover:        #166534;
+  --add-fg:           #ffffff;
+  --add-ring:         rgba(21, 128, 61, 0.22);
+  --add-muted:        #dcfce7;
+  --add-muted-fg:     #166534;
+  --add-muted-hover:  #bbf7d0;
+
+  /* Trading semantics */
+  --profit:           #059669;
+  --profit-fg:        #ffffff;
+  --profit-muted:     #ecfdf5;
+  --profit-muted-fg:  #047857;
+  --loss:             #dc2626;
+  --loss-fg:          #ffffff;
+  --loss-muted:       #fef2f2;
+  --loss-muted-fg:    #b91c1c;
+
+  /* Other semantic */
+  --danger:           #dc2626;
+  --warning:          #d97706;
+  --warning-muted:    #fffbeb;
+  --warning-muted-fg: #b45309;
+  --info:             #0284c7;
+  --info-muted:       #f0f9ff;
+
+  /* Shadows — flat in light mode */
+  --shadow-xs:        none;
+  --shadow-sm:        none;
+  --shadow-md:        none;
+  --shadow-lg:        none;
+  --shadow-xl:        none;
+  --shadow-2xl:       none;
+
+  /* Radius — professional, not playful */
+  --radius-xs:        2px;
+  --radius-sm:        3px;
+  --radius: 0.625rem;
+  --radius-md:        6px;
+  --radius-lg:        8px;
+  --radius-xl:        10px;
+  --radius-full:      9999px;
+
+  /* Hero */
+  --hero-glow:        rgba(79, 70, 229, 0.07);
+  --hero-glow-2:      rgba(99, 102, 241, 0.04);
+
+  /* Overlay */
+  --overlay:          rgba(0, 0, 0, 0.45);
+
+  /* Button glow — accent-colored shadow for primary hover */
+  --btn-glow:         rgba(79, 70, 229, 0.28);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
 }
 
-/* Dark theme */
+/* ─── Dark theme — Void (default) ───────────────────────────────────── */
+/* Active theme: Void. See src/app/themes.css for all 4 theme variants.  */
 .dark {
-  --background:    #0d1117;
-  --surface:       #161b22;
-  --surface-alt:   #21262d;
-  --border:        #30363d;
-  --border-muted:  #21262d;
-  --foreground:    #e6edf3;
-  --muted-fg:      #8b949e;
-  --subtle-fg:     #6e7681;
-  --accent:        #3fb950;
-  --accent-hover:  #46c557;
-  --accent-fg:     #ffffff;
-  --accent-muted:  #0d2116;
-  --accent-muted-fg: #56d364;
-  --danger:        #f85149;
-  --hero-glow:     rgba(63, 185, 80, 0.07);
+  color-scheme: dark;
+  /* Backgrounds — deep near-black, indigo-tinted surfaces (visible steps) */
+  --background: oklch(0.145 0 0);
+  --optional-background: #0b0c11;
+  --surface:          #16161E;
+  --surface-alt:      #1E1E28;
+  --surface-raised:   #1A1A24;
+  --surface-inset:    #0A0A0D;
+  --surface-overlay:  #242434;
+
+  /* Borders — translucent white: crisp and visible against dark surfaces */
+  --border: oklch(1 0 0 / 10%);
+  --border-base:      rgba(255, 255, 255, 0.15);
+  --border-muted:     rgba(255, 255, 255, 0.05);
+
+  /* Text */
+  --foreground: oklch(0.985 0 0);
+  --muted-fg:         #ABABC3;
+  --subtle-fg:        #8A8AA4;
+
+  /* Accent — Indigo, vibrant for dark bg */
+  --accent: oklch(0.269 0 0);
+  --accent-hover:     #A5B4FC;
+  --accent-fg:        #0F0F12;
+  --accent-muted:     rgba(129, 140, 248, 0.16);
+  --accent-muted-fg:  #C4CAFD;
+  --accent-ring:      rgba(129, 140, 248, 0.30);
+
+  /* Add/create action */
+  --add:              #16a34a;
+  --add-hover:        #15803d;
+  --add-fg:           #ffffff;
+  --add-ring:         rgba(22, 163, 74, 0.28);
+  --add-muted:        rgba(22, 163, 74, 0.13);
+  --add-muted-fg:     #4ade80;
+  --add-muted-hover:  rgba(22, 163, 74, 0.22);
+
+  /* Trading semantics */
+  --profit:           #34d399;
+  --profit-fg:        #022c22;
+  --profit-muted:     #052e16;
+  --profit-muted-fg:  #6ee7b7;
+  --loss:             #f87171;
+  --loss-fg:          #450a0a;
+  --loss-muted:       #2d1111;
+  --loss-muted-fg:    #fca5a5;
+
+  /* Other semantic */
+  --danger:           #f87171;
+  --warning:          #fbbf24;
+  --warning-muted:    #1c1708;
+  --warning-muted-fg: #fcd34d;
+  --info:             #38bdf8;
+  --info-muted:       #082f49;
+
+  /* Shadows — stronger for deep dark bg */
+  --shadow-xs:        0 1px 2px rgba(0, 0, 0, 0.50);
+  --shadow-sm:        0 1px 4px rgba(0, 0, 0, 0.60), 0 1px 2px rgba(0, 0, 0, 0.40);
+  --shadow-md:        0 4px 8px -1px rgba(0, 0, 0, 0.65), 0 2px 4px -2px rgba(0, 0, 0, 0.45);
+  --shadow-lg:        0 10px 20px -3px rgba(0, 0, 0, 0.70), 0 4px 8px -4px rgba(0, 0, 0, 0.50);
+  --shadow-xl:        0 20px 30px -5px rgba(0, 0, 0, 0.75), 0 8px 12px -6px rgba(0, 0, 0, 0.45);
+
+  /* Radius — same as light */
+  --radius-xs:        2px;
+  --radius-sm:        3px;
+  --radius:           5px;
+  --radius-md:        6px;
+  --radius-lg:        8px;
+  --radius-xl:        10px;
+  --radius-full:      9999px;
+
+  /* Hero */
+  --hero-glow:        rgba(129, 140, 248, 0.14);
+  --hero-glow-2:      rgba(99, 102, 241, 0.07);
+
+  /* Overlay */
+  --overlay:          rgba(0, 0, 0, 0.72);
+
+  /* Button glow — electric indigo for dark surfaces */
+  --btn-glow:         rgba(129, 140, 248, 0.36);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
 }
 
-/* Maps CSS vars to Tailwind color utilities (bg-background, text-foreground, etc.) */
+/* ─── Tailwind theme mapping ─────────────────────────────────────────── */
 @theme inline {
+  /* Colors */
   --color-background:       var(--background);
   --color-surface:          var(--surface);
   --color-surface-alt:      var(--surface-alt);
+  --color-surface-raised:   var(--surface-raised);
+  --color-surface-inset:    var(--surface-inset);
+  --color-surface-overlay:  var(--surface-overlay);
   --color-border:           var(--border);
+  --color-border-base:      var(--border-base);
   --color-border-muted:     var(--border-muted);
   --color-foreground:       var(--foreground);
   --color-muted-fg:         var(--muted-fg);
   --color-subtle-fg:        var(--subtle-fg);
+  --color-add:              var(--add);
+  --color-add-hover:        var(--add-hover);
+  --color-add-fg:           var(--add-fg);
   --color-accent:           var(--accent);
   --color-accent-hover:     var(--accent-hover);
   --color-accent-fg:        var(--accent-fg);
   --color-accent-muted:     var(--accent-muted);
   --color-accent-muted-fg:  var(--accent-muted-fg);
+  --color-profit:           var(--profit);
+  --color-profit-fg:        var(--profit-fg);
+  --color-profit-muted:     var(--profit-muted);
+  --color-profit-muted-fg:  var(--profit-muted-fg);
+  --color-loss:             var(--loss);
+  --color-loss-fg:          var(--loss-fg);
+  --color-loss-muted:       var(--loss-muted);
+  --color-loss-muted-fg:    var(--loss-muted-fg);
   --color-danger:           var(--danger);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-warning:          var(--warning);
+  --color-warning-muted:    var(--warning-muted);
+  --color-info:             var(--info);
+  --color-info-muted:       var(--info-muted);
+
+  /* Fonts */
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-space-grotesk);
+  --font-mono:              var(--font-roboto-mono);
+
+  /* Radius */
+  --radius-xs:              var(--radius-xs);
+  --radius-sm:              var(--radius-sm);
+  --radius-DEFAULT:         var(--radius);
+  --radius-md:              var(--radius-md);
+  --radius-lg:              var(--radius-lg);
+  --radius-xl:              var(--radius-xl);
+  --radius-full:            var(--radius-full);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* Base */
+/* ─── Base defaults ──────────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html {
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
 }
 
-/* Fix autocomplete design and input styling */
+body {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background);
+  font-family: var(--font-inter), system-ui, --apple-system, sans-serif;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-space-grotesk), var(--font-inter), system-ui, sans-serif;
+  font-feature-settings: "ss01" 1, "calt" 1;
+}
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+}
+.font-mono,
+.tabular-nums {
+  font-family: var(--font-roboto-mono), ui-monospace, monospace;
+}
+
+button, [role="button"] {
+  cursor: pointer;
+}
+
+/* Text selection */
+::selection {
+  background-color: var(--accent-muted);
+  color: var(--accent-muted-fg);
+}
+
+/* Focus visible — clean ring, only on keyboard nav */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
 @layer base {
+  /* Autofill override */
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus {
@@ -84,12 +380,13 @@ body {
     transition: background-color 5000s ease-in-out 0s;
   }
 
+  /* Input focus ring */
   input:focus,
   textarea:focus,
   select:focus {
     outline: none !important;
     border-color: var(--accent) !important;
-    box-shadow: 0 0 0 2px var(--accent-subtle) !important;
+    box-shadow: 0 0 0 3px var(--accent-ring) !important;
   }
 
   input,
@@ -97,31 +394,313 @@ body {
   select {
     outline: none !important;
   }
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
 }
 
-/* Remove default browser outline */
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none !important;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px var(--accent-subtle);
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--subtle-fg);
+  pointer-events: none;
+  float: left;
+  height: 0;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--muted-fg); }
+/* ─── Scrollbar ──────────────────────────────────────────────────────── */
+/* Light mode scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
 
-/* Hero section background classes */
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #999;
+  border-radius: 5px;
+  transition: background-color 150ms ease-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #444;
+}
+
+/* Scrollbar corner */
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #666;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+.dark ::-webkit-scrollbar-thumb:active {
+  background: #aaa;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #505050 rgba(0, 0, 0, 0.03);
+}
+
+.dark * {
+  scrollbar-color: #666 rgba(255, 255, 255, 0.05);
+}
+
+/* ─── Hero section ───────────────────────────────────────────────────── */
 .hero-bg {
   background:
-    radial-gradient(ellipse 80% 55% at 50% -5%, var(--hero-glow) 0%, transparent 70%);
+    radial-gradient(ellipse 90% 60% at 50% -5%, var(--hero-glow) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 80% 30%, var(--hero-glow-2) 0%, transparent 60%);
 }
 
 .hero-grid {
   background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
-  background-size: 28px 28px;
-  opacity: 0.6;
+  background-size: 24px 24px;
+  opacity: 0.5;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 40%, transparent 100%);
+}
+
+/* ─── Button system ─────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+  will-change: transform;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    background-color 140ms ease-out,
+    color 140ms ease-out,
+    border-color 140ms ease-out,
+    box-shadow 150ms ease-out,
+    transform 150ms ease-out;
+}
+
+.btn:active {
+  transition-duration: 70ms;
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Primary — color shift only, no transform */
+.btn-primary {
+  background-color: var(--accent);
+  color: var(--accent-fg);
+  font-weight: 600;
+}
+
+.btn-primary:not(:disabled):hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-primary:not(:disabled):active {
+  filter: brightness(0.95);
+}
+
+/* Ghost — bg fill + border upgrade, no transform */
+.btn-ghost {
+  background-color: transparent;
+  color: var(--foreground);
+  border-color: var(--border);
+}
+
+.btn-ghost:not(:disabled):hover {
+  background-color: var(--surface);
+  border-color: var(--border-base);
+}
+
+.btn-ghost:not(:disabled):active {
+  background-color: var(--surface-alt);
+}
+
+/* Muted — borderless, bg fill on hover */
+.btn-muted {
+  background-color: transparent;
+  color: var(--muted-fg);
+  border-color: transparent;
+}
+
+.btn-muted:not(:disabled):hover {
+  background-color: var(--surface-alt);
+  color: var(--foreground);
+}
+
+.btn-muted:not(:disabled):active {
+  background-color: var(--surface-inset);
+}
+
+/* Danger — brightness shift, no transform */
+.btn-danger {
+  background-color: var(--danger);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.btn-danger:not(:disabled):hover {
+  filter: brightness(1.1);
+}
+
+.btn-danger:not(:disabled):active {
+  filter: brightness(0.95);
+}
+
+/* Icon button — scale only (stays in place, doesn't float) */
+.btn-icon {
+  padding: 0.375rem;
+  background-color: transparent;
+  color: var(--muted-fg);
+  border-color: transparent;
+  border-radius: var(--radius-sm);
+}
+
+.btn-icon:not(:disabled):hover {
+  background-color: var(--surface-alt);
+  color: var(--foreground);
+  transform: scale(1.1);
+}
+
+.btn-icon:not(:disabled):active {
+  transform: scale(0.93);
+}
+
+/* CTA lift modifier — composable with any variant */
+/* Use only on hero CTAs, section CTAs, and primary nav actions */
+.btn-lift:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px var(--btn-glow);
+}
+
+.btn-lift:not(:disabled):active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px var(--btn-glow);
+}
+
+/* Size modifiers */
+.btn-xs { padding: 0.25rem 0.625rem; font-size: 0.75rem; }
+.btn-sm { padding: 0.375rem 0.75rem; }
+.btn-lg { padding: 0.625rem 1.25rem; }
+.btn-xl { padding: 0.75rem 1.5rem; font-size: 1rem; }
+
+/* ─── Floating save pill (trade notes) ──────────────────────────────── */
+.btn-save-float {
+  will-change: transform;
+  box-shadow: 0 4px 16px var(--btn-glow), 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition:
+    background-color 140ms ease-out,
+    transform 150ms ease-out,
+    box-shadow 150ms ease-out;
+}
+
+.btn-save-float:not(:disabled):hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px var(--btn-glow), 0 4px 10px rgba(0, 0, 0, 0.16);
+}
+
+.btn-save-float:not(:disabled):active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 8px var(--btn-glow);
+  transition-duration: 70ms;
+}
+
+/* ─── Add/create action button ──────────────────────────────────────── */
+.btn-add {
+  background-color: var(--add-muted);
+  color: var(--add-muted-fg);
+}
+.btn-add:hover {
+  background-color: var(--add-muted-hover);
+}
+
+/* ─── Surface elevation utilities — dark only ───────────────────────── */
+.elevated-xs { box-shadow: none; }
+.elevated-sm { box-shadow: none; }
+.elevated-md { box-shadow: none; }
+.elevated-lg { box-shadow: none; }
+.elevated-xl { box-shadow: none; }
+
+.dark .elevated-xs { box-shadow: var(--shadow-xs); }
+.dark .elevated-sm { box-shadow: var(--shadow-sm); }
+.dark .elevated-md { box-shadow: var(--shadow-md); }
+.dark .elevated-lg { box-shadow: var(--shadow-lg); }
+.dark .elevated-xl { box-shadow: var(--shadow-xl); }
+
+/* ─── Glass surface (navbar, modals) ────────────────────────────────── */
+.glass {
+  background: color-mix(in srgb, var(--background) 80%, transparent);
+  backdrop-filter: blur(18px) saturate(165%);
+  -webkit-backdrop-filter: blur(18px) saturate(165%);
+}
+
+/* ─── Date/time picker icon — dark mode ─────────────────────────────── */
+.dark input[type="date"]::-webkit-calendar-picker-indicator,
+.dark input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.75) brightness(0.95);
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .btn-lift:not(:disabled):hover,
+  .btn-lift:not(:disabled):active,
+  .btn-icon:not(:disabled):hover,
+  .btn-icon:not(:disabled):active,
+  .btn-save-float:not(:disabled):hover,
+  .btn-save-float:not(:disabled):active {
+    transform: none !important;
+    box-shadow: none !important;
+  }
 }

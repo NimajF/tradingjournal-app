@@ -31,7 +31,7 @@ export default function NotFound() {
             Go Home
           </Link>
           <Link
-            href="/journal"
+            href="/journals"
             className="px-6 py-2 rounded-md border border-border text-foreground hover:bg-surface-alt transition-colors"
           >
             Dashboard

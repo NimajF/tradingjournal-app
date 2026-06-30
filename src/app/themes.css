@@ -1,0 +1,208 @@
+/**
+ * Theme catalog — Trading Journal
+ *
+ * Usage (ThemeProvider sets data-theme on <html>):
+ *   <html class="dark" data-theme="void">    → Void    (default)
+ *   <html class="dark" data-theme="sage">    → Sage
+ *   <html class="dark" data-theme="nebula">  → Nebula
+ *   <html class="dark" data-theme="polar">   → Polar
+ *
+ * Each theme overrides the dark-mode CSS variables defined in globals.css.
+ * Trading semantics (--profit, --loss) are intentionally NOT themed —
+ * green/red must stay consistent and recognizable for the trader.
+ */
+
+/* ══════════════════════════════════════════════════════════════════════
+   VOID — Deep near-black, indigo-tinted surfaces, electric indigo accent.
+   ══════════════════════════════════════════════════════════════════════ */
+[data-theme="void"].dark,
+[data-theme="void"] .dark,
+.dark [data-theme="void"] {
+  --background:       #0F0F12;
+  --surface:          #16161E;
+  --surface-alt:      #1E1E28;
+  --surface-raised:   #1A1A24;
+  --surface-inset:    #0A0A0D;
+  --surface-overlay:  #242434;
+
+  --border:           rgba(255, 255, 255, 0.10);
+  --border-base:      rgba(255, 255, 255, 0.15);
+  --border-muted:     rgba(255, 255, 255, 0.05);
+
+  --foreground:       #F1F1F5;
+  --muted-fg:         #9898B4;
+  --subtle-fg:        #7C7C94;
+
+  --accent:           #818CF8;
+  --accent-hover:     #A5B4FC;
+  --accent-fg:        #0F0F12;
+  --accent-muted:     rgba(129, 140, 248, 0.16);
+  --accent-muted-fg:  #C4CAFD;
+  --accent-ring:      rgba(129, 140, 248, 0.30);
+
+  --add:              #16A34A;
+  --add-hover:        #15803D;
+  --add-fg:           #FFFFFF;
+  --add-ring:         rgba(22, 163, 74, 0.28);
+  --add-muted:        rgba(22, 163, 74, 0.13);
+  --add-muted-fg:     #4ADE80;
+  --add-muted-hover:  rgba(22, 163, 74, 0.22);
+
+  --shadow-xs:        0 1px 2px rgba(0, 0, 0, 0.50);
+  --shadow-sm:        0 1px 4px rgba(0, 0, 0, 0.60), 0 1px 2px rgba(0, 0, 0, 0.40);
+  --shadow-md:        0 4px 8px -1px rgba(0, 0, 0, 0.65), 0 2px 4px -2px rgba(0, 0, 0, 0.45);
+  --shadow-lg:        0 10px 20px -3px rgba(0, 0, 0, 0.70), 0 4px 8px -4px rgba(0, 0, 0, 0.50);
+  --shadow-xl:        0 20px 30px -5px rgba(0, 0, 0, 0.75), 0 8px 12px -6px rgba(0, 0, 0, 0.45);
+
+  --hero-glow:        rgba(129, 140, 248, 0.14);
+  --hero-glow-2:      rgba(99, 102, 241, 0.07);
+  --overlay:          rgba(0, 0, 0, 0.72);
+  --btn-glow:         rgba(129, 140, 248, 0.36);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   SAGE — Near-pure black, neutral surfaces with clear depth, emerald accent.
+   ══════════════════════════════════════════════════════════════════════ */
+[data-theme="sage"].dark,
+[data-theme="sage"] .dark,
+.dark [data-theme="sage"] {
+  --background:       #0e0e0e;
+  --surface:          #1C1C1C;
+  --surface-alt:      #252525;
+  --surface-raised:   #202020;
+  --surface-inset:    #080808;
+  --surface-overlay:  #2E2E2E;
+
+  --border:           rgba(255, 255, 255, 0.12);
+  --border-base:      rgba(255, 255, 255, 0.20);
+  --border-muted:     rgba(255, 255, 255, 0.06);
+
+  --foreground:       #F5F5F5;
+  --muted-fg:         #ABABAB;
+  --subtle-fg:        #888888;
+
+  --accent:           #3ECF8E;
+  --accent-hover:     #5BD4A0;
+  --accent-fg:        #011A0F;
+  --accent-muted:     rgba(62, 207, 142, 0.12);
+  --accent-muted-fg:  #3ECF8E;
+  --accent-ring:      rgba(62, 207, 142, 0.28);
+
+  --add:              #3ECF8E;
+  --add-hover:        #2DBD7D;
+  --add-fg:           #011A0F;
+  --add-ring:         rgba(62, 207, 142, 0.28);
+  --add-muted:        rgba(62, 207, 142, 0.12);
+  --add-muted-fg:     #3ECF8E;
+  --add-muted-hover:  rgba(62, 207, 142, 0.22);
+
+  --shadow-xs:        0 1px 2px rgba(0, 0, 0, 0.55);
+  --shadow-sm:        0 1px 4px rgba(0, 0, 0, 0.65), 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-md:        0 4px 8px -1px rgba(0, 0, 0, 0.70), 0 2px 4px -2px rgba(0, 0, 0, 0.50);
+  --shadow-lg:        0 10px 20px -3px rgba(0, 0, 0, 0.75), 0 4px 8px -4px rgba(0, 0, 0, 0.55);
+  --shadow-xl:        0 20px 30px -5px rgba(0, 0, 0, 0.80), 0 8px 12px -6px rgba(0, 0, 0, 0.50);
+
+  --hero-glow:        rgba(62, 207, 142, 0.09);
+  --hero-glow-2:      rgba(62, 207, 142, 0.04);
+  --overlay:          rgba(0, 0, 0, 0.75);
+  --btn-glow:         rgba(62, 207, 142, 0.38);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   NEBULA — Intense blue-black, violet accent, tinted borders.
+   ══════════════════════════════════════════════════════════════════════ */
+[data-theme="nebula"].dark,
+[data-theme="nebula"] .dark,
+.dark [data-theme="nebula"] {
+  --background:       #09091A;
+  --surface:          #12121E;
+  --surface-alt:      #1A1A2C;
+  --surface-raised:   #161628;
+  --surface-inset:    #060610;
+  --surface-overlay:  #20203A;
+
+  --border:           rgba(130, 100, 255, 0.18);
+  --border-base:      rgba(130, 100, 255, 0.28);
+  --border-muted:     rgba(130, 100, 255, 0.08);
+
+  --foreground:       #F0EFFF;
+  --muted-fg:         #A0A0C4;
+  --subtle-fg:        #7878A0;
+
+  --accent:           #7C3AED;
+  --accent-hover:     #8B5CF6;
+  --accent-fg:        #FFFFFF;
+  --accent-muted:     rgba(124, 58, 237, 0.20);
+  --accent-muted-fg:  #C4B5FD;
+  --accent-ring:      rgba(124, 58, 237, 0.38);
+
+  --add:              #6D28D9;
+  --add-hover:        #7C3AED;
+  --add-fg:           #FFFFFF;
+  --add-ring:         rgba(109, 40, 217, 0.38);
+  --add-muted:        rgba(109, 40, 217, 0.20);
+  --add-muted-fg:     #C4B5FD;
+  --add-muted-hover:  rgba(109, 40, 217, 0.30);
+
+  --shadow-xs:        0 1px 2px rgba(0, 0, 0, 0.55);
+  --shadow-sm:        0 1px 4px rgba(0, 0, 0, 0.65), 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-md:        0 4px 8px -1px rgba(0, 0, 0, 0.70), 0 2px 4px -2px rgba(0, 0, 0, 0.50);
+  --shadow-lg:        0 10px 20px -3px rgba(0, 0, 0, 0.75), 0 4px 8px -4px rgba(0, 0, 0, 0.55);
+  --shadow-xl:        0 20px 30px -5px rgba(0, 0, 0, 0.80), 0 8px 12px -6px rgba(0, 0, 0, 0.50);
+
+  --hero-glow:        rgba(124, 58, 237, 0.16);
+  --hero-glow-2:      rgba(139, 92, 246, 0.08);
+  --overlay:          rgba(0, 0, 0, 0.74);
+  --btn-glow:         rgba(124, 58, 237, 0.36);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   POLAR — Blue-grey editorial. Muted foreground. Purple/lilac accent.
+   ══════════════════════════════════════════════════════════════════════ */
+[data-theme="polar"].dark,
+[data-theme="polar"] .dark,
+.dark [data-theme="polar"] {
+  --background:       #1C2031;
+  --surface:          #252A3A;
+  --surface-alt:      #2E344A;
+  --surface-raised:   #2A2F42;
+  --surface-inset:    #151926;
+  --surface-overlay:  #353C55;
+
+  --border:           rgba(166, 172, 205, 0.13);
+  --border-base:      rgba(166, 172, 205, 0.20);
+  --border-muted:     rgba(166, 172, 205, 0.06);
+
+  --foreground:       #A6ACCD;
+  --muted-fg:         #9BA3CC;
+  --subtle-fg:        #7C84B0;
+
+  --accent:           #C792EA;
+  --accent-hover:     #D3A8F0;
+  --accent-fg:        #1C2031;
+  --accent-muted:     rgba(199, 146, 234, 0.16);
+  --accent-muted-fg:  #C792EA;
+  --accent-ring:      rgba(199, 146, 234, 0.32);
+
+  --add:              #A8CC6A;
+  --add-hover:        #92B554;
+  --add-fg:           #1C2031;
+  --add-ring:         rgba(168, 204, 106, 0.30);
+  --add-muted:        rgba(168, 204, 106, 0.15);
+  --add-muted-fg:     #C3E88D;
+  --add-muted-hover:  rgba(168, 204, 106, 0.25);
+
+  --shadow-xs:        0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-sm:        0 1px 4px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.28);
+  --shadow-md:        0 4px 8px -1px rgba(0, 0, 0, 0.50), 0 2px 4px -2px rgba(0, 0, 0, 0.32);
+  --shadow-lg:        0 10px 20px -3px rgba(0, 0, 0, 0.55), 0 4px 8px -4px rgba(0, 0, 0, 0.35);
+  --shadow-xl:        0 20px 30px -5px rgba(0, 0, 0, 0.60), 0 8px 12px -6px rgba(0, 0, 0, 0.38);
+
+  --hero-glow:        rgba(199, 146, 234, 0.12);
+  --hero-glow-2:      rgba(130, 170, 255, 0.06);
+  --overlay:          rgba(0, 0, 0, 0.65);
+  --btn-glow:         rgba(199, 146, 234, 0.36);
+}
