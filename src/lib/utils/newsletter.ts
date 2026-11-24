@@ -1,15 +1,13 @@
 import type { NoteContent } from "@/lib/types/note";
 
-const WORDS_PER_MINUTE = 200;
+const WORDS_PER_MINUTE = 230;
 
 // Strips HTML tags so markup doesnt get counted as words. Shared by the
 // editors byline and the reading view, which both surface it.
 export function getReadingTime(html: NoteContent): number {
-  const text = html.replace(/<[^>]*>/g, "").trim();
-  const words = text.split(/\s+/).filter(Boolean).length;
+  const words = htmlToPlainText(html).split(" ").filter(Boolean).length;
   return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
 }
-
 // Shared so the byline reads identically while editing and once published.
 export function formatPublishedOn(createdAt: string): string {
   return new Date(createdAt).toLocaleDateString("en-US", {
