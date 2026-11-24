@@ -11,33 +11,44 @@ export default function ProtectedShell({
   user,
   children,
   favoriteJournals,
+  favoriteNewsletters,
+  initialSidebarCollapsed,
 }: {
   user: CurrentUser;
   children: React.ReactNode;
   favoriteJournals: { id: string; name: string }[];
+  favoriteNewsletters: { id: string; title: string }[];
+  initialSidebarCollapsed: boolean;
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
-    <NavProvider>
+    <NavProvider initialCollapsed={initialSidebarCollapsed}>
       <UserProvider user={user}>
-        <div className="h-dvh flex flex-col">
+        {/* The page keeps the colour the content panel had (--view); rail
+            and header float on it as cards. */}
+        <div className="h-dvh flex flex-col bg-view">
           {/* <Navbar
           user={user}
           onMenuClick={() => setMobileOpen((prev) => !prev)}
         /> */}
-          <AppNavbar
-            user={user}
-            onMenuClick={() => setMobileOpen((prev) => !prev)}
-          />
 
           <div className="flex flex-1 min-h-0 overflow-hidden">
             <AsideNav
               favoriteJournals={favoriteJournals}
+              favoriteNewsletters={favoriteNewsletters}
               mobileOpen={mobileOpen}
               onClose={() => setMobileOpen(false)}
             />
-            <div className="flex-1 min-w-0 md:pr-64 overflow-y-auto">
-              {children}
+            {/* Rail and header are floating cards */}
+            <div className="flex flex-1 min-w-0 flex-col">
+              <AppNavbar
+                user={user}
+                onMenuClick={() => setMobileOpen((prev) => !prev)}
+              />
+              <div className="flex-1 min-h-0 overflow-y-auto px-4 py-2 sm:px-6 lg:px-10 [scrollbar-gutter:stable]">
+                {children}
+              </div>
             </div>
           </div>
         </div>

@@ -15,13 +15,13 @@ export default function GlobalAddButton() {
     <>
       <button
         onClick={() => setIsVisible(true)}
-        className="fixed bottom-6 right-6 z-50 flex items-center justify-center rounded-full p-4 bg-accent text-accent-fg shadow-lg transition-all duration-150 hover:bg-accent-hover hover:shadow-xl hover:scale-105 active:scale-95"
+        className="fixed bottom-6 right-6 z-50 flex items-center justify-center rounded-(--radius-btn) p-4 bg-accent text-accent-fg shadow-(--shadow-lg) transition-[background-color,box-shadow,transform] duration-200 hover:bg-accent-hover hover:shadow-(--shadow-xl) hover:scale-105 active:scale-95 motion-reduce:hover:scale-100"
       >
         <PlusIcon size={20} />
       </button>
-      {isVisible && feature === "journal" && (
+      {/* {isVisible && feature === "journal" && (
         <NewTradeForm onClose={() => setIsVisible(false)} />
-      )}
+      )} */}
     </>
   );
 }

@@ -28,8 +28,15 @@ export default function UserMenu({
         setOpen(false);
       }
     }
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
     document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKey);
+    };
   }, []);
 
   const initials = username
@@ -44,12 +51,14 @@ export default function UserMenu({
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-surface transition-colors duration-150"
+        className={`group flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors duration-150 hover:bg-hover ${
+          open ? "bg-surface-alt" : ""
+        }`}
         aria-haspopup="menu"
         aria-expanded={open}
       >
         <span
-          className="flex h-7 w-7 items-center justify-center rounded-full bg-accent bg-cover bg-center text-accent-fg text-xs font-bold overflow-hidden"
+          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent bg-cover bg-center text-accent-fg text-xs font-bold overflow-hidden"
           style={avatarStyle}
         >
           {!avatarUrl && initials}
@@ -59,27 +68,27 @@ export default function UserMenu({
         </span>
         <ChevronDown
           size={14}
-          className={`hidden sm:block text-muted-fg transition-transform duration-150 ${
-            open ? "rotate-180" : ""
+          className={`hidden sm:block transition-[transform,color] duration-150 group-hover:text-foreground ${
+            open ? "rotate-180 text-foreground" : "text-muted-fg"
           }`}
         />
       </button>
 
       {open && (
         <div
-          className="absolute right-0 top-full z-50 mt-1.5 w-56 overflow-hidden rounded-lg border border-border bg-surface-overlay elevated-lg"
+          className="panel absolute! right-0 top-full z-50 mt-2 w-64 origin-top-right overflow-hidden rounded-xl border border-border bg-surface-overlay elevated-lg animate-in fade-in-0 zoom-in-95 duration-150 motion-reduce:animate-none"
           role="menu"
         >
           {/* Profile header */}
-          <div className="flex items-center gap-2.5 border-b border-border px-3 py-2.5">
+          <div className="flex items-center gap-2.5 border-b border-border-muted px-3.5 py-3">
             <span
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent bg-cover bg-center text-accent-fg text-xs font-bold overflow-hidden"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent bg-cover bg-center text-accent-fg text-xs font-bold overflow-hidden"
               style={avatarStyle}
             >
               {!avatarUrl && initials}
             </span>
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-foreground leading-tight">
+              <p className="truncate text-sm font-semibold text-foreground leading-tight">
                 {displayName}
               </p>
               <p className="truncate text-xs text-muted-fg">{email}</p>
@@ -87,11 +96,11 @@ export default function UserMenu({
           </div>
 
           {/* Settings */}
-          <div className="p-1">
+          <div role="none" className="p-1">
             <Link
               href="/settings?tab=account"
               onClick={() => setOpen(false)}
-              className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm text-muted-fg hover:bg-surface-alt hover:text-foreground transition-colors duration-150"
+              className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm text-muted-fg transition-colors duration-150 hover:bg-hover hover:text-foreground"
               role="menuitem"
             >
               <Settings size={14} />
@@ -100,8 +109,8 @@ export default function UserMenu({
           </div>
 
           {/* Theme toggle */}
-          <div className="border-t border-border p-1">
-            <div className="flex items-center justify-between px-2.5 py-1">
+          <div role="none" className="border-t border-border-muted p-1">
+            <div className="flex items-center justify-between rounded-md px-2.5 py-1.5">
               <span className="text-sm text-muted-fg">
                 {mounted
                   ? theme === "dark"
@@ -114,11 +123,11 @@ export default function UserMenu({
           </div>
 
           {/* Sign out */}
-          <div className="border-t border-border p-1">
+          <div role="none" className="border-t border-border-muted p-1">
             <form action={signOut}>
               <button
                 type="submit"
-                className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm text-muted-fg hover:bg-surface-alt hover:text-foreground transition-colors duration-150"
+                className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm text-muted-fg transition-colors duration-150 hover:bg-hover hover:text-foreground"
                 role="menuitem"
               >
                 <LogOut size={14} />

@@ -1,0 +1,189 @@
+/* The 404 wears the app's Terminal material, frozen: these are Terminal's
+   values copied as literals, not theme tokens, so the page reads the same
+   under every palette and in light mode. */
+
+.overlay {
+  --ground: #08090a;
+  --plane: #0e1011;
+  --edge: #24272a;
+  --control-edge: #30343a;
+  --ink: #f4f5f5;
+  --muted: #999ea1;
+  --subtle: #82878c;
+  --lime: #a8e88b;
+  --lime-hover: #bdf2a3;
+  --lime-ink: #0c1a06;
+  --loss: #a283e8;
+  --loss-label: #bca3f2;
+
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  overflow-y: auto;
+  padding: 48px 20px;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  color-scheme: dark;
+  scrollbar-color: var(--control-edge) transparent;
+}
+
+.overlay ::selection {
+  background: rgb(168 232 139 / 0.28);
+  color: var(--ink);
+}
+
+/* Auto margins centre the column without cutting its top off when the
+   viewport is shorter than it. */
+.content {
+  margin: auto;
+  width: min(440px, 100%);
+  text-align: center;
+}
+
+.code {
+  margin: 0;
+  font-size: clamp(6rem, 22vw, 9rem);
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.title {
+  margin: 20px 0 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.lede {
+  margin: 8px auto 0;
+  max-width: 34ch;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted);
+  text-wrap: balance;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 150ms ease-out,
+    border-color 150ms ease-out;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: 2px;
+}
+
+.primary {
+  background: var(--lime);
+  color: var(--lime-ink);
+  font-weight: 600;
+}
+
+.primary:hover {
+  background: var(--lime-hover);
+}
+
+.secondary {
+  background: var(--plane);
+  border-color: var(--control-edge);
+  color: var(--ink);
+}
+
+.secondary:hover {
+  background: #15171a;
+  border-color: #4a4f55;
+}
+
+/* ── The trade that doesn't exist: one journal line and its note ── */
+
+.entry {
+  margin: 48px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--edge);
+  text-align: left;
+}
+
+.entryRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.chip {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgb(162 131 232 / 0.14);
+  box-shadow: inset 0 0 0 1px rgb(188 163 242 / 0.3);
+  color: var(--loss-label);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.chipDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--loss);
+}
+
+.symbol {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.pnl {
+  flex-shrink: 0;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--loss);
+}
+
+.note {
+  margin: 10px 0 0;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--muted);
+}

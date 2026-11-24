@@ -56,7 +56,7 @@ export default function Navbar({ user, onMenuClick }: NavbarProps) {
           {user ? (
             <div className="flex items-center gap-1">
               <Link href="/journals" className="btn btn-muted btn-sm ml-2">
-                My Journal
+                My Workspace
               </Link>
               <UserMenu
                 email={user.email}
@@ -66,13 +66,13 @@ export default function Navbar({ user, onMenuClick }: NavbarProps) {
             </div>
           ) : (
             <>
-              <Link
-                href="/login"
-                className="hidden sm:block btn btn-muted btn-sm"
-              >
-                Sign In
+              <Link href="/login" className="btn btn-muted btn-sm">
+                Sign in
               </Link>
-              <Link href="/register" className="btn btn-primary btn-lift btn-sm ml-1">
+              <Link
+                href="/register"
+                className="btn btn-primary btn-lift btn-sm ml-1"
+              >
                 Get Started
               </Link>
             </>
