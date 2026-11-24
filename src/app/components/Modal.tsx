@@ -3,6 +3,7 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
+import { useDialog } from "@/lib/hooks/useDialog";
 
 type ModalProps = {
   onClose: () => void;
@@ -17,35 +18,13 @@ export default function Modal({
   children,
   maxWidth = "max-w-lg",
 }: ModalProps) {
-  const surfaceRef = useRef<HTMLDivElement>(null); // Ref to the modal surface for focus management
+  const surfaceRef = useRef<HTMLDivElement>(null);
+  useDialog(onClose);
 
-  // Callers pass inline arrows, so onClose changes on every parent render.
-  // ref keeps the effect from running on every render, which would add/remove the event listener each time.
-  const onCloseRef = useRef(onClose);
+  // Move focus into the dialog so Tab and screen readers start inside it.
+  // Runs after useDialog's effect, which has already saved the trigger to restore on close.
   useEffect(() => {
-    onCloseRef.current = onClose;
-  }, [onClose]);
-
-  // Focus management: when the modal opens, focus the surface. When it closes, return focus to the previously focused element.
-  useEffect(() => {
-    const previouslyFocused = document.activeElement as HTMLElement | null;
-    const scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
-    if (scrollbarWidth > 0)
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    document.body.style.overflow = "hidden";
     surfaceRef.current?.focus();
-
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onCloseRef.current();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
-      previouslyFocused?.focus();
-    };
   }, []);
 
   return createPortal(
