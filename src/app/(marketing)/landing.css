@@ -1,0 +1,102 @@
+/**
+ * Landing-only visual system — scoped strictly to `.marketing-mono`,
+ * applied once on the (marketing) route's root wrapper in layout.tsx.
+ */
+
+.marketing-mono {
+  --background: #ffffff;
+  --surface: #fafafa;
+  --surface-alt: #f2f2f2;
+  --surface-raised: #ffffff;
+  --surface-inset: #ececec;
+  --surface-overlay: #ffffff;
+
+  --border: #e5e5e5;
+  --border-base: #d4d4d4;
+  --border-muted: #f1f1f1;
+
+  --foreground: #0a0a0a;
+  --muted-fg: #52525b;
+  --subtle-fg: #6b6b70;
+
+  --accent: #059669;
+  --accent-hover: #047857;
+  --accent-fg: #ffffff;
+  --accent-muted: #ecfdf5;
+  --accent-muted-fg: #047857;
+  --accent-ring: rgba(5, 150, 105, 0.22);
+  --btn-glow: rgba(5, 150, 105, 0.26);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.1);
+}
+
+.dark .marketing-mono {
+  --background: #050505;
+  --surface: #0c0c0c;
+  --surface-alt: #161616;
+  --surface-raised: #121212;
+  --surface-inset: #000000;
+  --surface-overlay: #1a1a1a;
+
+  --border: rgba(255, 255, 255, 0.09);
+  --border-base: rgba(255, 255, 255, 0.15);
+  --border-muted: rgba(255, 255, 255, 0.05);
+
+  --foreground: #f5f5f5;
+  --muted-fg: #a1a1aa;
+  --subtle-fg: #71717a;
+
+  --accent: #34d399;
+  --accent-hover: #6ee7b7;
+  --accent-fg: #022c22;
+  --accent-muted: rgba(52, 211, 153, 0.14);
+  --accent-muted-fg: #6ee7b7;
+  --accent-ring: rgba(52, 211, 153, 0.32);
+  --btn-glow: rgba(52, 211, 153, 0.4);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.6);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.7), 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 10px -1px rgba(0, 0, 0, 0.75);
+  --shadow-lg: 0 16px 32px -4px rgba(0, 0, 0, 0.8);
+  --shadow-xl: 0 32px 60px -8px rgba(0, 0, 0, 0.85);
+}
+
+/* Bespoke landing fx */
+
+.lp-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.dark .lp-grain {
+  opacity: 0.08;
+  mix-blend-mode: soft-light;
+}
+
+.lp-fade-bottom {
+  mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+}
+
+.lp-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.4em;
+  padding: 0.1em 0.45em;
+  border-radius: 5px;
+  border: 1px solid var(--border-base);
+  background: var(--surface-raised);
+  box-shadow: 0 1px 0 var(--border-base);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.7em;
+  color: var(--muted-fg);
+}
