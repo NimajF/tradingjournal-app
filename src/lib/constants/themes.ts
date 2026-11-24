@@ -1,15 +1,28 @@
-export type ColorTheme = "void" | "sage" | "nebula" | "polar";
+// The palette catalogue — the single list the app knows about.
+//
+// Colours live only in src/app/themes.css, one block per id. The picker
+// renders each swatch with its own data-theme and reads the colours from
+// CSS, so there is no hex here to fall out of sync. Adding a palette is
+// one CSS block + one entry below.
+export const THEMES = [
+  { id: "terminal", label: "Terminal" },
+  { id: "mint", label: "Mint" },
+  { id: "graphite", label: "Graphite" },
+  { id: "amber", label: "Amber" },
+  { id: "nocturne", label: "Nocturne" },
+  { id: "fjord", label: "Fjord" },
+] as const;
 
-export const DEFAULT_COLOR_THEME: ColorTheme = "void";
+export type ColorTheme = (typeof THEMES)[number]["id"];
 
-export const THEMES: {
-  id: ColorTheme;
-  label: string;
-  accent: string;
-  bg: string;
-}[] = [
-  { id: "void",   label: "Void",   accent: "#818CF8", bg: "#16161E" },
-  { id: "sage",   label: "Sage",   accent: "#3ECF8E", bg: "#141414" },
-  { id: "nebula", label: "Nebula", accent: "#7C3AED", bg: "#12121E" },
-  { id: "polar",  label: "Polar",  accent: "#C792EA", bg: "#252A3A" },
-];
+export const DEFAULT_COLOR_THEME: ColorTheme = "terminal";
+
+export const THEME_IDS: readonly ColorTheme[] = THEMES.map((t) => t.id);
+
+// A stored value from an older build (void, sage, haze…) falls back to the
+// default instead of leaving <html> with a palette that no longer exists.
+export function resolveColorTheme(value: string | null | undefined): ColorTheme {
+  return THEME_IDS.includes(value as ColorTheme)
+    ? (value as ColorTheme)
+    : DEFAULT_COLOR_THEME;
+}

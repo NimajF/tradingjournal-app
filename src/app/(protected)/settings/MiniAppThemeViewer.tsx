@@ -12,7 +12,7 @@ export default function MiniAppThemeViewer() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none overflow-hidden rounded-lg border border-border-base bg-background elevated-sm"
+      className="panel pointer-events-none overflow-hidden rounded-lg border border-border-base bg-background elevated-sm"
     >
       <div className="flex h-62 min-h-0 text-foreground">
         <aside className="hidden w-20 shrink-0 border-r border-border bg-surface px-3 py-3 sm:block">
@@ -51,7 +51,7 @@ export default function MiniAppThemeViewer() {
             </div>
 
             <div className="overflow-hidden rounded-md border border-border bg-surface">
-              <div className="flex items-center justify-between border-b border-border bg-surface-alt px-3 py-2">
+              <div className="flex items-center justify-between border-b border-border-muted bg-surface-alt px-3 py-2">
                 <div className="h-2 w-20 rounded-full bg-foreground/75" />
                 <div className="h-1.5 w-10 rounded-full bg-accent" />
               </div>
@@ -64,7 +64,9 @@ export default function MiniAppThemeViewer() {
                   >
                     <div className="h-2 rounded-full bg-muted-fg/35" />
                     <div className="h-2.5 w-12 rounded-full bg-foreground/75" />
-                    <div className={`h-2 rounded-full bg-surface-alt ${row.width}`} />
+                    <div
+                      className={`h-2 rounded-full bg-surface-alt ${row.width}`}
+                    />
                     <div
                       className={[
                         "ml-auto h-4 w-10 rounded-full",

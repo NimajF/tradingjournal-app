@@ -6,238 +6,277 @@
 /* Class-based dark mode — toggles with .dark on <html> */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ─── Light theme ──────────────────────────────────── */
+/* ── Shared across modes ─────────────────────────────────────────────── */
+:root {
+  --font-ui: var(--font-geist), Inter, ui-sans-serif, system-ui, -apple-system,
+               "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-numeric: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+               Consolas, monospace;
+  --font-title: var(--font-ui);
+
+  --radius-btn:       6px;
+  --radius-xs:        4px;
+  --radius-sm:        8px;
+  --radius:           10px;
+  --radius-md:        10px;
+  --radius-lg:        14px;
+  --radius-xl:        16px;
+  --radius-2xl:       18px;
+  --radius-3xl:       20px;
+  --radius-full:      9999px;
+
+  /* Motion — one exponential ease-out for everything that settles. */
+  --ease:             cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-emphasized:  cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-in-out:      cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-1:            110ms;
+  --dur-2:            160ms;
+  --dur-3:            240ms;
+  --dur-4:            340ms;
+
+  /* No light in this material. Kept as tokens so anything that still reads
+     them resolves to a valid value. */
+  --rim-tint:         transparent;
+  --sheen:            transparent;
+  --btn-glow:         transparent;
+
+  /* Interaction tints */
+  --hover:            color-mix(in srgb, var(--accent) 6%, var(--surface-alt));
+  --selected:         color-mix(in srgb, var(--accent) 11%, var(--surface));
+
+  /* shadcn aliases — resolved on <html>, so they follow the active mode. */
+  --card: var(--surface);
+  --card-foreground: var(--foreground);
+  --popover: var(--surface-overlay);
+  --popover-foreground: var(--foreground);
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-fg);
+  --secondary: var(--surface-alt);
+  --secondary-foreground: var(--foreground);
+  --muted: var(--surface-alt);
+  --muted-foreground: var(--muted-fg);
+  --accent-foreground: var(--accent-fg);
+  --destructive: var(--danger);
+  --input: var(--border-base);
+  --ring: var(--accent);
+  --chart-1: var(--accent);
+  --chart-2: var(--profit);
+  --chart-3: var(--info);
+  --chart-4: var(--warning);
+  --chart-5: var(--loss);
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--accent);
+  --sidebar-primary-foreground: var(--accent-fg);
+  --sidebar-accent: var(--surface-alt);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--accent);
+}
+
+/* ── Light — one design, not one per palette ─────────────────────────── */
 :root {
   color-scheme: light;
-  /* Backgrounds */
-  --surface:          #ffffff;
-  --surface-alt:      #fafafa;
-  --surface-raised:   #ffffff;
-  --surface-inset:    #ececec;
-  --surface-overlay:  #ffffff;
 
-  /* Borders */
-  --border: oklch(0.922 0 0);   /* on surface (white) */
-  --border-base:      #d8d8d8;   /* on background (gray) — more visible */
-  --border-muted:     #f0f0f0;   /* very subtle, inside cards */
+  --background:       #E9E9EC;   /* the desk: the rail sits here */
+  --view:             #F7F7F9;   /* the content panel, the one frame */
+  --shell:            #F7F7F9;   /* mobile drawer */
+  --surface:          #FFFFFF;   /* cards, table shell: white on an off-white panel */
+  --surface-alt:      #F1F1F4;   /* nested tile, row hover */
+  --surface-raised:   #E5E5EA;   /* the active segment of a segmented control */
+  --surface-overlay:  #FFFFFF;   /* popovers, dialogs */
+  --surface-inset:    #EFEFF2;   /* inputs recess back to the page */
 
-  /* Text */
-  --muted-fg:         #6b6b6b;
-  --subtle-fg:        #767676;
+  --border-muted:     #E9E9ED;   /* hairline inside a card */
+  --border:           #DCDCE2;   /* the card edge */
+  --border-base:      #CDCDD4;   /* controls */
 
-  /* Accent — Indigo */
-  --accent: oklch(0.97 0 0);
-  --accent-hover:     #4338ca;
-  --accent-fg:        #ffffff;
-  --accent-muted:     #eef2ff;
-  --accent-muted-fg:  #4338ca;
-  --accent-ring:      rgba(79, 70, 229, 0.2);
+  /* subtle-fg is solved on the desk (4.77:1), its worst plane now that
+     the rail sits on it unboxed. */
+  --foreground:       #141416;
+  --muted-fg:         #5C5C63;
+  --subtle-fg:        #65656C;
 
-  /* Add/create action — forest green, distinct from profit teal */
-  --add:              #15803d;
-  --add-hover:        #166534;
-  --add-fg:           #ffffff;
-  --add-ring:         rgba(21, 128, 61, 0.22);
-  --add-muted:        #dcfce7;
-  --add-muted-fg:     #166534;
-  --add-muted-hover:  #bbf7d0;
+  /* Lime cannot carry text on white, so light runs the same hue family
+     deep enough to be both a fill (white label) and a link. */
+  --accent:           #3D7F1E;
+  --accent-hover:     #336B18;
+  --accent-fg:        #FFFFFF;
+  --accent-muted:     #EEF6E8;
+  --accent-muted-fg:  #2F6A14;
+  --accent-ring:      rgba(61, 127, 30, 0.22);
 
-  /* Trading semantics */
-  --profit:           #059669;
-  --profit-fg:        #ffffff;
-  --profit-muted:     #ecfdf5;
-  --profit-muted-fg:  #047857;
-  --loss:             #dc2626;
-  --loss-fg:          #ffffff;
-  --loss-muted:       #fef2f2;
-  --loss-muted-fg:    #b91c1c;
+  --add:              var(--accent);
+  --add-hover:        var(--accent-hover);
+  --add-fg:           var(--accent-fg);
+  --add-ring:         var(--accent-ring);
+  --add-muted:        var(--accent-muted);
+  --add-muted-fg:     var(--accent-muted-fg);
+  --add-muted-hover:  #E3F0DA;
 
-  /* Other semantic */
-  --danger:           #dc2626;
-  --warning:          #d97706;
-  --warning-muted:    #fffbeb;
-  --warning-muted-fg: #b45309;
-  --info:             #0284c7;
-  --info-muted:       #f0f9ff;
+  --profit:           #0A7A52;
+  --profit-fg:        #FFFFFF;
+  --profit-muted:     #E7F6EF;
+  --profit-muted-fg:  #07704A;
+  --loss:             #6D4BC9;
+  --loss-fg:          #FFFFFF;
+  --loss-muted:       #F1ECFB;
+  --loss-muted-fg:    #5B3BB5;
 
-  /* Shadows — flat in light mode */
+  --danger:           #C9372C;
+  --danger-hover:     #B02E24;
+  --danger-fg:        #FFFFFF;
+  --warning:          #8A5600;
+  --warning-muted:    #FEF1E3;
+  --warning-muted-fg: #7E4F00;
+  --info:             #0068A5;
+  --info-muted:       #EAF5FF;
+  --info-muted-fg:    #005F98;
+
+  --shadow-rgb:       17 17 19;
   --shadow-xs:        none;
   --shadow-sm:        none;
-  --shadow-md:        none;
-  --shadow-lg:        none;
-  --shadow-xl:        none;
-  --shadow-2xl:       none;
+  --shadow-md:        0 8px 24px -10px rgb(17 17 19 / 0.14);
+  --shadow-lg:        0 14px 36px -12px rgb(17 17 19 / 0.16);
+  --shadow-xl:        0 22px 50px -16px rgb(17 17 19 / 0.18);
+  --shadow-2xl:       0 32px 72px -24px rgb(17 17 19 / 0.22);
+  /* A resting card is flat like the rail and header: planes and edges carry
+     the hierarchy. Only something you can open lifts, and only on hover. */
+  --shadow-card:      0 0 #0000;   /* not "none": utilities splice it into a shadow list */
+  --shadow-lift:      0 10px 22px -14px rgb(20 20 24 / 0.22);
+  --lift-edge:        #C6E3B1;
+  --glow:             0 0 0 4px rgba(61, 127, 30, 0.16);
 
-  /* Radius — professional, not playful */
-  --radius-xs:        2px;
-  --radius-sm:        3px;
-  --radius: 0.625rem;
-  --radius-md:        6px;
-  --radius-lg:        8px;
-  --radius-xl:        10px;
-  --radius-full:      9999px;
+  --overlay:          rgba(20, 20, 24, 0.3);
+  --hero-glow:        rgba(61, 127, 30, 0.06);
+  --hero-glow-2:      rgba(61, 127, 30, 0.03);
 
-  /* Hero */
-  --hero-glow:        rgba(79, 70, 229, 0.07);
-  --hero-glow-2:      rgba(99, 102, 241, 0.04);
+  /* The lime key carries over to paper: lime fill, dark label, a deeper
+     lime edge to give it shape on white. --accent stays deep green because
+     it is also used as text (stars, links), and lime cannot be read on white. */
+  --btn-bg:           #A8E78C;
+  --btn-bg-hover:     #9CDD7F;
+  --btn-fg:           #0E1A07;
+  --btn-border:       #8FCF70;
+  /* "You are here" is lit in the action hue: a pale lime row with a lime
+     edge and a deep-green label. */
+  --nav-bg:           #EAF6E0;
+  --nav-fg:           #2F6A14;
+  --nav-edge:         #C6E3B1;
+  --nav-icon:         var(--nav-fg);
+  --ring-color:       var(--accent);
 
-  /* Overlay */
-  --overlay:          rgba(0, 0, 0, 0.45);
-
-  /* Button glow — accent-colored shadow for primary hover */
-  --btn-glow:         rgba(79, 70, 229, 0.28);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* Fields. On paper a field is a white plane with a control edge. */
+  --field-bg:           var(--surface);
+  --field-border:       var(--border-base);
+  --field-border-hover: color-mix(in srgb, var(--foreground) 40%, var(--border-base));
 }
 
-/* ─── Dark theme — Void (default) ───────────────────────────────────── */
-/* Active theme: Void. See src/app/themes.css for all 4 theme variants.  */
+/* ── Dark — material fixed, colours from the active palette ─────────────
+   Every palette-driven token reads a raw --p-* value that themes.css
+   defines per palette; tints are derived here, so a palette only names
+   its colours, never its recipes. */
 .dark {
   color-scheme: dark;
-  /* Backgrounds — deep near-black, indigo-tinted surfaces (visible steps) */
-  --background: oklch(0.145 0 0);
-  --optional-background: #0b0c11;
-  --surface:          #16161E;
-  --surface-alt:      #1E1E28;
-  --surface-raised:   #1A1A24;
-  --surface-inset:    #0A0A0D;
-  --surface-overlay:  #242434;
 
-  /* Borders — translucent white: crisp and visible against dark surfaces */
-  --border: oklch(1 0 0 / 10%);
-  --border-base:      rgba(255, 255, 255, 0.15);
-  --border-muted:     rgba(255, 255, 255, 0.05);
+  --background:       var(--p-background);
+  --view:             var(--p-view, color-mix(in srgb, var(--p-surface) 30%, var(--p-background)));
+  --shell:            var(--p-shell, var(--p-surface));
+  --surface:          var(--p-surface);
+  --surface-alt:      var(--p-surface-alt);
+  --surface-raised:   var(--p-surface-raised);
+  --surface-overlay:  var(--p-surface-overlay); /* dialogs, popovers */
+  --surface-inset:    var(--p-surface-inset);
 
-  /* Text */
-  --foreground: oklch(0.985 0 0);
-  --muted-fg:         #ABABC3;
-  --subtle-fg:        #8A8AA4;
+  --border-muted:     var(--p-border-muted);
+  --border:           var(--p-border);
+  --border-base:      var(--p-border-base);
 
-  /* Accent — Indigo, vibrant for dark bg */
-  --accent: oklch(0.269 0 0);
-  --accent-hover:     #A5B4FC;
-  --accent-fg:        #0F0F12;
-  --accent-muted:     rgba(129, 140, 248, 0.16);
-  --accent-muted-fg:  #C4CAFD;
-  --accent-ring:      rgba(129, 140, 248, 0.30);
+  --foreground:       var(--p-foreground);
+  --muted-fg:         var(--p-muted-fg);
+  --subtle-fg:        var(--p-subtle-fg);
 
-  /* Add/create action */
-  --add:              #16a34a;
-  --add-hover:        #15803d;
-  --add-fg:           #ffffff;
-  --add-ring:         rgba(22, 163, 74, 0.28);
-  --add-muted:        rgba(22, 163, 74, 0.13);
-  --add-muted-fg:     #4ade80;
-  --add-muted-hover:  rgba(22, 163, 74, 0.22);
+  --accent:           var(--p-accent);
+  --accent-hover:     var(--p-accent-hover);
+  --accent-fg:        var(--p-accent-fg);
+  --accent-muted:     var(--p-accent-muted);
+  --accent-muted-fg:  var(--p-accent);
+  --accent-ring:      color-mix(in srgb, var(--p-ring, var(--p-accent)) 30%, transparent);
 
-  /* Trading semantics */
-  --profit:           #34d399;
-  --profit-fg:        #022c22;
-  --profit-muted:     #052e16;
-  --profit-muted-fg:  #6ee7b7;
-  --loss:             #f87171;
-  --loss-fg:          #450a0a;
-  --loss-muted:       #2d1111;
-  --loss-muted-fg:    #fca5a5;
+  --add:              var(--accent);
+  --add-hover:        var(--accent-hover);
+  --add-fg:           var(--accent-fg);
+  --add-ring:         var(--accent-ring);
+  --add-muted:        var(--accent-muted);
+  --add-muted-fg:     var(--accent);
+  --add-muted-hover:  color-mix(in srgb, var(--p-accent) 16%, var(--surface));
 
-  /* Other semantic */
-  --danger:           #f87171;
-  --warning:          #fbbf24;
-  --warning-muted:    #1c1708;
-  --warning-muted-fg: #fcd34d;
-  --info:             #38bdf8;
-  --info-muted:       #082f49;
+  --profit:           var(--p-profit);
+  --profit-fg:        var(--p-profit-fg);
+  --profit-muted:     color-mix(in srgb, var(--p-profit) 10%, transparent);
+  --profit-muted-fg:  var(--p-profit-muted-fg);
+  --loss:             var(--p-loss);
+  --loss-fg:          var(--p-loss-fg);
+  --loss-muted:       color-mix(in srgb, var(--p-loss) 14%, transparent);
+  --loss-muted-fg:    var(--p-loss-muted-fg);
 
-  /* Shadows — stronger for deep dark bg */
-  --shadow-xs:        0 1px 2px rgba(0, 0, 0, 0.50);
-  --shadow-sm:        0 1px 4px rgba(0, 0, 0, 0.60), 0 1px 2px rgba(0, 0, 0, 0.40);
-  --shadow-md:        0 4px 8px -1px rgba(0, 0, 0, 0.65), 0 2px 4px -2px rgba(0, 0, 0, 0.45);
-  --shadow-lg:        0 10px 20px -3px rgba(0, 0, 0, 0.70), 0 4px 8px -4px rgba(0, 0, 0, 0.50);
-  --shadow-xl:        0 20px 30px -5px rgba(0, 0, 0, 0.75), 0 8px 12px -6px rgba(0, 0, 0, 0.45);
+  /* Deleting a trade is not a loss, so danger never follows the palette. */
+  --danger:           #F0736A;
+  --danger-hover:     #F58A82;
+  --danger-fg:        #1F0503;
+  --warning:          #D9C24A;
+  --warning-muted:    rgba(217, 194, 74, 0.12);
+  --warning-muted-fg: #E3CF6A;
+  --info:             #38C5FD;
+  --info-muted:       rgba(56, 197, 253, 0.14);
+  --info-muted-fg:    #97DDFF;
 
-  /* Radius — same as light */
-  --radius-xs:        2px;
-  --radius-sm:        3px;
-  --radius:           5px;
-  --radius-md:        6px;
-  --radius-lg:        8px;
-  --radius-xl:        10px;
-  --radius-full:      9999px;
+  --shadow-rgb:       0 0 0;
+  --shadow-xs:        none;
+  --shadow-sm:        none;
+  --shadow-md:        0 12px 32px -12px rgb(0 0 0 / 0.6);
+  --shadow-lg:        0 16px 40px -14px rgb(0 0 0 / 0.65);
+  --shadow-xl:        0 24px 56px -18px rgb(0 0 0 / 0.7);
+  --shadow-2xl:       0 32px 72px -24px rgb(0 0 0 / 0.75);
+  --shadow-card:      0 0 #0000;   /* not "none": utilities splice it into a shadow list */
+  --shadow-lift:      0 12px 26px -16px rgb(0 0 0 / 0.8);
+  --lift-edge:        color-mix(in srgb, var(--p-accent) 28%, var(--p-border));
+  --glow:             0 0 0 4px color-mix(in srgb, var(--p-ring, var(--p-accent)) 14%, transparent);
 
-  /* Hero */
-  --hero-glow:        rgba(129, 140, 248, 0.14);
-  --hero-glow-2:      rgba(99, 102, 241, 0.07);
+  --overlay:          rgba(0, 0, 0, 0.62);
+  --hero-glow:        color-mix(in srgb, var(--p-accent) 10%, transparent);
+  --hero-glow-2:      color-mix(in srgb, var(--p-accent) 5%, transparent);
 
-  /* Overlay */
-  --overlay:          rgba(0, 0, 0, 0.72);
+  /* Signature — a palette may name its own primary control, its own
+     "you are here" and its own focus colour; otherwise the accent does. */
+  --btn-bg:           var(--p-btn-bg, var(--accent));
+  --btn-bg-hover:     var(--p-btn-bg-hover, var(--accent-hover));
+  --btn-fg:           var(--p-btn-fg, var(--accent-fg));
+  --btn-border:       var(--p-btn-border, transparent);
+  --nav-bg:           var(--p-nav-bg, var(--surface-alt));
+  --nav-fg:           var(--p-nav-fg, var(--foreground));
+  --nav-edge:         var(--p-nav-edge, var(--border));
+  --nav-icon:         var(--p-nav-icon, var(--accent));
+  --ring-color:       var(--p-ring, var(--accent));
 
-  /* Button glow — electric indigo for dark surfaces */
-  --btn-glow:         rgba(129, 140, 248, 0.36);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Fields are a LIFT, not a hole. */
+  --field-bg:           color-mix(in srgb, var(--foreground) 4%, transparent);
+  --field-border:       color-mix(in srgb, var(--foreground) 13%, transparent);
+  --field-border-hover: color-mix(in srgb, var(--foreground) 22%, transparent);
 }
 
-/* ─── Tailwind theme mapping ─────────────────────────────────────────── */
+/* ═══ Tailwind theme mapping ═════════════════════════════════════════ */
 @theme inline {
-  /* Colors */
+  /* Colours */
   --color-background:       var(--background);
+  --color-view:             var(--view);
+  --color-shell:            var(--shell);
   --color-surface:          var(--surface);
   --color-surface-alt:      var(--surface-alt);
   --color-surface-raised:   var(--surface-raised);
   --color-surface-inset:    var(--surface-inset);
   --color-surface-overlay:  var(--surface-overlay);
+  --color-overlay:          var(--overlay);   /* dialog scrim */
   --color-border:           var(--border);
   --color-border-base:      var(--border-base);
   --color-border-muted:     var(--border-muted);
@@ -265,11 +304,15 @@
   --color-warning-muted:    var(--warning-muted);
   --color-info:             var(--info);
   --color-info-muted:       var(--info-muted);
+  --color-hover:            var(--hover);
+  --color-selected:         var(--selected);
 
-  /* Fonts */
-  --font-sans: var(--font-sans);
-  --font-display: var(--font-space-grotesk);
-  --font-mono:              var(--font-roboto-mono);
+  /* Fonts — one family, three roles */
+  --font-sans:              var(--font-ui);
+  --font-display:           var(--font-ui);
+  --font-heading:           var(--font-ui);
+  --font-mono:              var(--font-numeric);
+  --font-serif:             var(--font-title);
 
   /* Radius */
   --radius-xs:              var(--radius-xs);
@@ -278,8 +321,20 @@
   --radius-md:              var(--radius-md);
   --radius-lg:              var(--radius-lg);
   --radius-xl:              var(--radius-xl);
+  --radius-2xl:             var(--radius-2xl);
+  --radius-3xl:             var(--radius-3xl);
+  --radius-4xl:             32px;
   --radius-full:            var(--radius-full);
-  --font-heading: var(--font-sans);
+
+  /* Motion — every bare `transition-*` in the app inherits this curve,
+     so the whole interface settles the same way without a single
+     component naming an easing of its own. */
+  --default-transition-duration:        160ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-quart:         cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-emphasized:        cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* shadcn aliases */
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -307,19 +362,22 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* ─── Base defaults ──────────────────────────────────────────────────── */
-*, *::before, *::after {
+/* ═══ Base ═══════════════════════════════════════════════════════════ */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
   text-size-adjust: 100%;
+  /* Checkboxes, radios, range tracks and progress bars are drawn by the
+     browser. Without this they ship in the platform blue and are the one
+     place a themed app still looks unthemed. */
+  accent-color: var(--accent);
 }
 
 body {
@@ -327,84 +385,555 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--background);
-  font-family: var(--font-inter), system-ui, --apple-system, sans-serif;
-  font-optical-sizing: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
-  font-feature-settings: "rlig" 1, "calt" 1;
-}
-
-h1,
-h2,
-h3,
-.font-display {
-  font-family: var(--font-space-grotesk), var(--font-inter), system-ui, sans-serif;
-  font-feature-settings: "ss01" 1, "calt" 1;
-}
-input,
-textarea,
-select,
-button {
-  font-family: inherit;
-}
-.font-mono,
-.tabular-nums {
-  font-family: var(--font-roboto-mono), ui-monospace, monospace;
-}
-
-button, [role="button"] {
-  cursor: pointer;
-}
-
-/* Text selection */
-::selection {
-  background-color: var(--accent-muted);
-  color: var(--accent-muted-fg);
-}
-
-/* Focus visible — clean ring, only on keyboard nav */
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: var(--radius-xs);
 }
 
 @layer base {
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-ui);
+    /* 1.5 is interface leading. 1.6 is reading leading, and it belongs to
+       prose surfaces, which set it themselves. */
+    line-height: 1.5;
+    /* Zero, and that is the change. Inter is drawn loose at interface sizes
+       and needs about -0.006em pulled out of it; Geist is drawn tight and
+       Vercel ships letter-spacing: normal on its own controls. Carrying
+       Inter's ramp over to Geist is how the switch reads cramped rather
+       than crisp. Tracking is still spent, but only where a face actually
+       needs it: on the large sizes, below. */
+    letter-spacing: 0;
+    font-optical-sizing: auto;
+    /* cv05 and ss03 were Inter feature tags and mean nothing to Geist.
+       Contextual alternates and required ligatures are the real ones. */
+    font-feature-settings: "calt" 1, "rlig" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    @apply font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+  }
+  h2 { letter-spacing: -0.015em; }
+
+  h1 {
+    font-weight: 680;
+    letter-spacing: -0.034em;
+    line-height: 1.1;
+  }
+
+  p, li {
+    text-wrap: pretty;
+  }
+
+  input, textarea, select, button {
+    font-family: inherit;
+    letter-spacing: inherit;
+  }
+
+  ::placeholder {
+    color: var(--subtle-fg);
+    opacity: 1;
+  }
+
+  ::marker {
+    color: var(--subtle-fg);
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
   /* Autofill override */
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus {
     -webkit-text-fill-color: var(--foreground) !important;
-    -webkit-box-shadow: 0 0 0px 1000px var(--background) inset !important;
+    -webkit-box-shadow: 0 0 0 1000px var(--surface-alt) inset !important;
     transition: background-color 5000s ease-in-out 0s;
   }
+}
 
-  /* Input focus ring */
+@layer components {
+  /* .font-display keeps its meaning now that it no longer switches family:
+     it is the display *treatment* — tighter tracking than body text. Any
+     utility a component adds still wins over it. */
+  .font-display {
+    letter-spacing: -0.018em;
+  }
+}
+
+.font-mono,
+.tabular-nums {
+  font-family: var(--font-numeric);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "zero" 1;
+  letter-spacing: 0;
+}
+
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+/* Browser surfaces */
+
+::selection {
+  background-color: color-mix(in srgb, var(--ring-color) 30%, transparent);
+  color: var(--foreground);
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+  caret-color: var(--accent);
+}
+
+/* Keyboard focus only. The ring follows whatever radius the element
+   already has — it must never square off a pill or an avatar. */
+:focus-visible {
+  outline: 2px solid var(--ring-color);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@layer base {
   input:focus,
   textarea:focus,
   select:focus {
     outline: none !important;
-    border-color: var(--accent) !important;
-    box-shadow: 0 0 0 3px var(--accent-ring) !important;
+    border-color: color-mix(in srgb, var(--ring-color) 70%, var(--field-border)) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring-color) 18%, transparent) !important;
+  }
+
+  /* A document's own title and subtitle are typed straight onto the page.
+     The field ring would box in a headline; the caret is the focus
+     indicator here, as it is in the editor body below it. Same layer as
+     the recipe above, so specificity (not !important order) decides. */
+  input.field-bare,
+  textarea.field-bare,
+  input.field-bare:is(:hover, :focus),
+  textarea.field-bare:is(:hover, :focus) {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
   }
 
   input,
   textarea,
   select {
     outline: none !important;
-  }
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-  html {
-    @apply font-sans;
+    transition:
+      border-color var(--dur-2) var(--ease),
+      box-shadow var(--dur-2) var(--ease),
+      background-color var(--dur-2) var(--ease);
   }
 }
 
+/* Scrollbar — a floating thumb on an open track. The inset rail is a
+   desktop-OS artefact; a workspace scrollbar should recede until used. */
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* The thumb is neutral ink: on every screen, so it must never compete
+   with the action colour for attention. */
+::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--foreground) 14%, transparent);
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--foreground) 26%, transparent);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: color-mix(in srgb, var(--muted-fg) 66%, transparent);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--foreground) 16%, transparent) transparent;
+}
+
+/* Panel */
+@layer components {
+  .panel {
+    background-color: var(--surface);
+    box-shadow: var(--shadow-card);
+  }
+}
+
+/* Anything you can open (a panel that is a link) lifts toward the pointer
+   and takes a faint edge of the action hue. Transform only: no reflow. */
+a.panel {
+  transition:
+    transform var(--dur-3) var(--ease),
+    box-shadow var(--dur-3) var(--ease),
+    border-color var(--dur-3) var(--ease);
+}
+
+a.panel:hover {
+  transform: translateY(-2px);
+  border-color: var(--lift-edge);
+  box-shadow: var(--shadow-lift);
+}
+
+.panel {
+  position: relative;
+  border: 1px solid var(--border);
+}
+
+/* Surface elevation utilities */
+.elevated-xs  { box-shadow: var(--shadow-xs); }
+.elevated-sm  { box-shadow: var(--shadow-sm); }
+.elevated-md  { box-shadow: var(--shadow-md); }
+.elevated-lg  { box-shadow: var(--shadow-lg); }
+.elevated-xl  { box-shadow: var(--shadow-xl); }
+.elevated-2xl { box-shadow: var(--shadow-2xl); }
+
+/* ═══ Glass — sticky chrome that content scrolls under ═══════════════ */
+.glass {
+  background-color: color-mix(in srgb, var(--background) 88%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    background-color: var(--background);
+  }
+}
+
+/* ═══ Button system ══════════════════════════════════════════════════
+   One flat fill, no light, no shadow. Primary and create actions are the
+   palette's action colour, and secondary is a dark control with a drawn edge
+   (the reference's "Market Order" selector). Ghost has no edge until
+   hovered. Buttons are capsules that give under the press. The Primary
+   carries a lit top edge and glows in the action hue on hover.
+   ═══════════════════════════════════════════════════════════════════ */
+:root,
+.dark {
+  --btn-edge:       var(--border-base);
+  --btn-edge-hover: color-mix(in srgb, var(--foreground) 22%, var(--border-base));
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  min-height: 2.25rem;
+  border-radius: var(--radius-btn);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    background-color var(--dur-2) var(--ease),
+    color var(--dur-2) var(--ease),
+    border-color var(--dur-2) var(--ease),
+    box-shadow var(--dur-2) var(--ease),
+    transform var(--dur-2) var(--ease);
+}
+
+.btn:active {
+  transition-duration: 60ms;
+}
+
+/* Every button gives a little under the press. */
+.btn:not(:disabled):active {
+  transform: scale(0.97);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+  filter: saturate(0.3);
+}
+
+/* Primary and create share one recipe: both are "press this". */
+.btn-primary,
+.btn-add {
+  background-color: var(--btn-bg);
+  color: var(--btn-fg);
+  /* Flat fill + 1px edge cut from the fill's own hue (Supabase): ink mixed
+     in darkens it on a light fill and lightens it on a dark one, so the
+     edge always reads as "the same colour, one step further out". */
+  border-color: color-mix(in srgb, var(--btn-bg) 80%, var(--btn-fg));
+  box-shadow: none;
+  font-weight: 500;
+}
+
+.btn-primary:not(:disabled):hover,
+.btn-add:not(:disabled):hover {
+  background-color: var(--btn-bg-hover);
+  border-color: color-mix(in srgb, var(--btn-bg-hover) 80%, var(--btn-fg));
+}
+
+.btn-primary:not(:disabled):active,
+.btn-add:not(:disabled):active {
+  background-color: color-mix(in srgb, var(--btn-bg) 88%, var(--btn-fg));
+}
+
+/* Ghost — no edge at rest, an ink overlay on hover so it works on the
+   page and on a card alike. */
+.btn-ghost {
+  background-color: transparent;
+  color: var(--foreground);
+  border-color: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  background-color: var(--hover);
+}
+
+.btn-ghost:not(:disabled):active {
+  background-color: color-mix(in srgb, var(--foreground) 11%, transparent);
+}
+
+/* Muted — the secondary control. */
+.btn-muted {
+  background-color: color-mix(in srgb, var(--foreground) 3%, transparent);
+  color: var(--foreground);
+  border-color: var(--btn-edge);
+}
+
+.btn-muted:not(:disabled):hover {
+  background-color: var(--hover);
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border-base));
+}
+
+.btn-muted:not(:disabled):active {
+  background-color: color-mix(in srgb, var(--foreground) 8%, var(--surface-alt));
+}
+
+/* Danger — deliberately independent of the palette's loss colour. */
+.btn-danger {
+  background-color: var(--danger);
+  color: var(--danger-fg);
+  border-color: transparent;
+}
+
+.btn-danger:not(:disabled):hover {
+  background-color: var(--danger-hover);
+}
+
+.btn-danger:not(:disabled):active {
+  background-color: color-mix(in srgb, var(--danger) 88%, var(--danger-fg));
+}
+
+/* Icon button — stays in place, never floats */
+.btn-icon {
+  min-height: 0;
+  padding: 0.375rem;
+  background-color: transparent;
+  color: var(--muted-fg);
+  border-color: transparent;
+  border-radius: var(--radius-btn);
+}
+
+.btn-icon:not(:disabled):hover {
+  background-color: var(--hover);
+  color: var(--foreground);
+}
+
+/* A finger needs ~40px, a cursor doesn't, so desktop keeps the tight size. */
+@media (pointer: coarse) {
+  .btn-icon {
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+  }
+}
+
+.btn-icon:not(:disabled):active {
+  transform: scale(0.92);
+}
+
+/* Nav link — the sidebar/settings-nav row. [data-active] is the single
+   source of truth for "current page". Active: a dark tint of the action
+   colour, a faint edge of the same hue, the colour itself as text. The
+   edge is an inset shadow so the row does not grow by 2px. */
+.nav-link {
+  color: var(--muted-fg);
+  transition:
+    background-color var(--dur-2) var(--ease),
+    color var(--dur-2) var(--ease);
+}
+
+.nav-link:hover {
+  background-color: var(--hover);
+  color: var(--foreground);
+}
+
+.nav-link:active {
+  transition-duration: var(--dur-1);
+  background-color: color-mix(in srgb, var(--accent) 12%, var(--surface-alt));
+}
+
+.nav-link[data-active="true"],
+.nav-link[data-active="true"]:hover {
+  background-color: var(--nav-bg);
+  color: var(--nav-fg);
+  font-weight: 500;
+  box-shadow: inset 0 0 0 1px var(--nav-edge);
+}
+
+.nav-link[data-active="true"] svg {
+  color: var(--nav-icon);
+}
+
+/* Lift modifier — landing CTAs only. No glow in this material; it still
+   rises on hover. */
+.btn-lift:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.btn-lift:not(:disabled):active {
+  transform: translateY(0);
+}
+
+/* Size modifiers — 24 / 32 / 36 / 40 / 48px tall. */
+.btn-xs { min-height: 1.5rem;  padding: 0.125rem 0.625rem; font-size: 0.75rem; }
+.btn-sm { min-height: 2rem;    padding: 0.375rem 0.875rem; }
+.btn-lg { min-height: 2.5rem;  padding: 0.5rem 1.25rem; }
+.btn-xl { min-height: 3rem;    padding: 0.75rem 1.625rem;  font-size: 1rem; }
+
+/* ═══ Fields ═════════════════════════════════════════════════════════
+   An input recesses to the page colour and keeps a control edge. Focussed inputs have a different edge and a ring around them. The focus recipe above turns the edge into the action colour and adds the
+   ring. Layered, so a call site styling its own input still wins. */
+@layer components {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea,
+  select {
+    background-color: var(--field-bg);
+    border-color: var(--field-border);
+    border-radius: var(--radius-md);
+  }
+
+  /* A field answers the pointer before it is clicked, and takes on the
+     palette the moment it is being written in. */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):hover:not(:focus),
+  textarea:hover:not(:focus),
+  select:hover:not(:focus) {
+    border-color: var(--field-border-hover);
+  }
+
+  /* Focus keeps the surface; only the edge and ring answer. A tinted fill
+     on focus turned the field being typed in into a coloured block. */
+}
+
+/* Trade list: rows read as a list, not a grid. No rule between rows;
+   alternate rows carry a faint ink stripe instead. Layered, so the
+   row hover / selected / editing utilities still win over the stripe. */
+[data-slot="journal-trades-table"] tbody tr {
+  border-bottom-color: transparent;
+}
+
+@layer components {
+  [data-slot="journal-trades-table"] tbody tr:nth-child(even) {
+    background-color: color-mix(in srgb, var(--foreground) 2.5%, transparent);
+  }
+}
+
+[data-slot="select-popup"],
+[data-slot="dialog-surface"] {
+  background-color: var(--surface-overlay);
+  border: 1px solid var(--border);
+}
+
+/* ═══ Brand details ══════════════════════════════════════════════════
+   The small, repeated things that make the material read as one hand:
+   the reference terminal's micro-label voice, one chip shape for every
+   badge, and figures whose units step back so the digits carry the
+   number. Layered as components so a call site can still adjust them.
+   ═══════════════════════════════════════════════════════════════════ */
+@layer components {
+  /* Sidebar group labels ("Workspace"). Sentence case at 12px with no
+     tracking: uppercase is how tickers are written (XAUUSD), so a label
+     set in it competes with the data it names. */
+  .label-micro {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--subtle-fg);
+  }
+
+  /* Every badge: a 4px rectangle, a tint from the call site, and a
+     hairline cut from its own text colour (the reference's "Pending").
+     The edge is an inset shadow so the chip's box never grows. */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3125rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.25;
+    white-space: nowrap;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 28%, transparent);
+  }
+
+  /* A figure's sign, currency and unit step back; the digits don't. */
+  .figure-affix {
+    color: color-mix(in srgb, currentColor 58%, transparent);
+    font-weight: 500;
+  }
+}
+
+/* ═══ Date/time picker icon — dark mode ══════════════════════════════ */
+.dark input[type="date"]::-webkit-calendar-picker-indicator,
+.dark input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.75) brightness(0.95);
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+.dark input[type="date"]::-webkit-calendar-picker-indicator:hover,
+.dark input[type="time"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* Numeric inputs — figures are typed, not stepped; the native spin
+   button is a default browser widget the design system never drew */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Editor content (Tiptap) */
 .tiptap p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   color: var(--subtle-fg);
@@ -413,277 +942,202 @@ button, [role="button"] {
   height: 0;
 }
 
-/* ─── Scrollbar ──────────────────────────────────────────────────────── */
-/* Light mode scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+.tiptap a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--accent) 38%, transparent);
+  text-underline-offset: 0.18em;
+  cursor: pointer;
+  transition: text-decoration-color var(--dur-2) var(--ease), color var(--dur-2) var(--ease);
 }
 
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.03);
-  border-radius: 5px;
+.tiptap a:hover {
+  color: var(--accent-hover);
+  text-decoration-color: currentColor;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #999;
-  border-radius: 5px;
-  transition: background-color 150ms ease-out;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #666;
-}
-
-::-webkit-scrollbar-thumb:active {
-  background: #444;
-}
-
-/* Scrollbar corner */
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-/* Dark mode scrollbar */
-.dark ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: #666;
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #888;
-}
-
-.dark ::-webkit-scrollbar-thumb:active {
-  background: #aaa;
-}
-
-/* Firefox scrollbar */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #505050 rgba(0, 0, 0, 0.03);
-}
-
-.dark * {
-  scrollbar-color: #666 rgba(255, 255, 255, 0.05);
-}
-
-/* ─── Hero section ───────────────────────────────────────────────────── */
-.hero-bg {
-  background:
-    radial-gradient(ellipse 90% 60% at 50% -5%, var(--hero-glow) 0%, transparent 65%),
-    radial-gradient(ellipse 50% 40% at 80% 30%, var(--hero-glow-2) 0%, transparent 60%);
-}
-
-.hero-grid {
-  background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
-  background-size: 24px 24px;
-  opacity: 0.5;
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 40%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 40%, transparent 100%);
-}
-
-/* ─── Button system ─────────────────────────────────────────────────── */
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.375rem;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius);
-  font-family: inherit;
-  font-size: 0.875rem;
-  font-weight: 500;
+.tiptap h1,
+.tiptap h2,
+.tiptap h3 {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  color: var(--foreground);
   line-height: 1.25;
-  white-space: nowrap;
-  cursor: pointer;
-  text-decoration: none;
-  border: 1px solid transparent;
-  will-change: transform;
-  user-select: none;
-  -webkit-user-select: none;
-  transition:
-    background-color 140ms ease-out,
-    color 140ms ease-out,
-    border-color 140ms ease-out,
-    box-shadow 150ms ease-out,
-    transform 150ms ease-out;
+  letter-spacing: -0.021em;
+  margin-top: 1em;
+  margin-bottom: 0.4em;
 }
+.tiptap h1 { font-size: 1.5em; letter-spacing: -0.026em; }
+.tiptap h2 { font-size: 1.25em; }
+.tiptap h3 { font-size: 1.1em; }
 
-.btn:active {
-  transition-duration: 70ms;
+.tiptap ul,
+.tiptap ol {
+  padding-left: 1.25em;
+  margin: 0.5em 0;
 }
+.tiptap ul { list-style: disc; }
+.tiptap ol { list-style: decimal; }
+.tiptap li + li { margin-top: 0.15em; }
 
-.btn:disabled,
-.btn[aria-disabled="true"] {
-  opacity: 0.45;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-/* Primary — color shift only, no transform */
-.btn-primary {
-  background-color: var(--accent);
-  color: var(--accent-fg);
-  font-weight: 600;
-}
-
-.btn-primary:not(:disabled):hover {
-  background-color: var(--accent-hover);
-}
-
-.btn-primary:not(:disabled):active {
-  filter: brightness(0.95);
-}
-
-/* Ghost — bg fill + border upgrade, no transform */
-.btn-ghost {
-  background-color: transparent;
-  color: var(--foreground);
-  border-color: var(--border);
-}
-
-.btn-ghost:not(:disabled):hover {
-  background-color: var(--surface);
-  border-color: var(--border-base);
-}
-
-.btn-ghost:not(:disabled):active {
-  background-color: var(--surface-alt);
-}
-
-/* Muted — borderless, bg fill on hover */
-.btn-muted {
-  background-color: transparent;
+.tiptap blockquote {
+  border-left: 2px solid var(--border-base);
+  padding-left: 0.85em;
+  margin: 0.5em 0;
   color: var(--muted-fg);
-  border-color: transparent;
+  font-style: italic;
 }
 
-.btn-muted:not(:disabled):hover {
+.tiptap code {
   background-color: var(--surface-alt);
-  color: var(--foreground);
+  border-radius: var(--radius-xs);
+  padding: 0.12em 0.34em;
+  font-family: var(--font-numeric);
+  font-size: 0.875em;
 }
 
-.btn-muted:not(:disabled):active {
-  background-color: var(--surface-inset);
-}
-
-/* Danger — brightness shift, no transform */
-.btn-danger {
-  background-color: var(--danger);
-  color: #ffffff;
-  font-weight: 600;
-}
-
-.btn-danger:not(:disabled):hover {
-  filter: brightness(1.1);
-}
-
-.btn-danger:not(:disabled):active {
-  filter: brightness(0.95);
-}
-
-/* Icon button — scale only (stays in place, doesn't float) */
-.btn-icon {
-  padding: 0.375rem;
-  background-color: transparent;
-  color: var(--muted-fg);
-  border-color: transparent;
+.tiptap pre {
+  background-color: var(--surface-alt);
   border-radius: var(--radius-sm);
+  padding: 0.75em 1em;
+  overflow-x: auto;
+  margin: 0.5em 0;
+}
+.tiptap pre code {
+  background: none;
+  padding: 0;
 }
 
-.btn-icon:not(:disabled):hover {
-  background-color: var(--surface-alt);
+.tiptap hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1em 0;
+}
+
+/* Newsletter prose
+   Measured off the playground's Ledger newsletter, which is the reading
+   voice this surface follows. The editor opts in through
+   `.newsletter-edit`, so the body is written exactly as it will be read;
+   trade notes keep the tighter app-chrome sizing. */
+.newsletter-read,
+.newsletter-edit .tiptap {
+  font-size: 1.0625rem;   /* the reading step — 17px, off the UI ramp */
+  line-height: 1.72;
+  letter-spacing: 0;
+  /* Body ink one step under the headings, so h2s and the title lead
+     without having to be heavier. Ledger: ink at 88% into the canvas. */
+  color: color-mix(in srgb, var(--foreground) 88%, var(--background));
+}
+
+:is(.newsletter-read, .newsletter-edit .tiptap) p { margin: 0 0 1.1em; }
+:is(.newsletter-read, .newsletter-edit .tiptap) > :first-child { margin-top: 0; }
+:is(.newsletter-read, .newsletter-edit .tiptap) > :last-child { margin-bottom: 0; }
+
+:is(.newsletter-read.tiptap, .newsletter-edit .tiptap) :is(h1, h2, h3) {
   color: var(--foreground);
-  transform: scale(1.1);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  margin: 1.8em 0 0.6em;
+}
+/* TOC targets. Land below the sticky document bar (56px) with air to
+   spare, and on the same line the rail is pinned to (top-20 = 80px). */
+.newsletter-read :is(h1, h2, h3)[id] { scroll-margin-top: 5rem; }
+:is(.newsletter-read.tiptap, .newsletter-edit .tiptap) h1 { font-size: 1.55em; letter-spacing: -0.02em; }
+:is(.newsletter-read.tiptap, .newsletter-edit .tiptap) h2 { font-size: 1.3em; }   /* 22px */
+:is(.newsletter-read.tiptap, .newsletter-edit .tiptap) h3 { font-size: 1.1em; }
+
+:is(.newsletter-read.tiptap, .newsletter-edit .tiptap) :is(ul, ol) {
+  margin: 0 0 1.1em;
+  padding-left: 1.2em;
+}
+:is(.newsletter-read.tiptap, .newsletter-edit .tiptap) li { margin: 0.3em 0; }
+/* Tiptap wraps each item's text in a <p>; its margin would double the
+   item rhythm above. */
+:is(.newsletter-read.tiptap, .newsletter-edit .tiptap) li > p { margin: 0; }
+
+/* Links read as text first. Ink stays, the accent is the underline.
+   A whole phrase in the action colour pulled the eye out of the line. */
+:is(.newsletter-read.tiptap, .newsletter-edit .tiptap) a {
+  color: var(--foreground);
+  text-decoration-color: var(--accent);
+  text-underline-offset: 3px;
+}
+:is(.newsletter-read.tiptap, .newsletter-edit .tiptap) a:hover {
+  color: var(--accent);
 }
 
-.btn-icon:not(:disabled):active {
-  transform: scale(0.93);
+:is(.newsletter-read.tiptap, .newsletter-edit .tiptap) blockquote {
+  margin: 1.4em 0;
+  padding-left: 16px;
+  border-left: 2px solid var(--accent);
+  color: var(--muted-fg);
+  font-style: normal;
 }
 
-/* CTA lift modifier — composable with any variant */
-/* Use only on hero CTAs, section CTAs, and primary nav actions */
-.btn-lift:not(:disabled):hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px var(--btn-glow);
+:is(.newsletter-read.tiptap, .newsletter-edit .tiptap) code {
+  font-size: 0.86em;
+  padding: 1px 5px;
+  border-radius: var(--radius-xs);
+  background-color: var(--surface-alt);
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
-.btn-lift:not(:disabled):active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px var(--btn-glow);
+:is(.newsletter-read.tiptap, .newsletter-edit .tiptap) pre {
+  margin: 1.4em 0;
+  padding: 1em 1.15em;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.85em;
+}
+:is(.newsletter-read.tiptap, .newsletter-edit .tiptap) pre code {
+  box-shadow: none;
+  padding: 0;
 }
 
-/* Size modifiers */
-.btn-xs { padding: 0.25rem 0.625rem; font-size: 0.75rem; }
-.btn-sm { padding: 0.375rem 0.75rem; }
-.btn-lg { padding: 0.625rem 1.25rem; }
-.btn-xl { padding: 0.75rem 1.5rem; font-size: 1rem; }
-
-/* ─── Floating save pill (trade notes) ──────────────────────────────── */
-.btn-save-float {
-  will-change: transform;
-  box-shadow: 0 4px 16px var(--btn-glow), 0 2px 6px rgba(0, 0, 0, 0.12);
-  transition:
-    background-color 140ms ease-out,
-    transform 150ms ease-out,
-    box-shadow 150ms ease-out;
+/* A short centred rule reads as a beat between passages, not the
+   full-width divider trade notes use. */
+:is(.newsletter-read.tiptap, .newsletter-edit .tiptap) hr {
+  width: 3.5rem;
+  margin: 2.4em auto;
+  border-top: 2px solid var(--border-base);
 }
 
-.btn-save-float:not(:disabled):hover {
-  background-color: var(--accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px var(--btn-glow), 0 4px 10px rgba(0, 0, 0, 0.16);
+/* Read view only. In the editor the image is a node view with its own
+   handles, and a margin on the <img> would push them off the frame. */
+.newsletter-read.tiptap img {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  margin: 1.6em 0;
 }
 
-.btn-save-float:not(:disabled):active {
-  transform: translateY(0) scale(0.97);
-  box-shadow: 0 2px 8px var(--btn-glow);
-  transition-duration: 70ms;
+/* Marketing surface */
+.aurora-bg {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(48rem 30rem at 12% -10%, var(--hero-glow) 0%, transparent 60%),
+    radial-gradient(36rem 26rem at 88% 8%, var(--hero-glow-2) 0%, transparent 65%),
+    radial-gradient(40rem 24rem at 78% 105%, color-mix(in srgb, var(--profit) 14%, transparent) 0%, transparent 70%);
 }
 
-/* ─── Add/create action button ──────────────────────────────────────── */
-.btn-add {
-  background-color: var(--add-muted);
-  color: var(--add-muted-fg);
-}
-.btn-add:hover {
-  background-color: var(--add-muted-hover);
-}
-
-/* ─── Surface elevation utilities — dark only ───────────────────────── */
-.elevated-xs { box-shadow: none; }
-.elevated-sm { box-shadow: none; }
-.elevated-md { box-shadow: none; }
-.elevated-lg { box-shadow: none; }
-.elevated-xl { box-shadow: none; }
-
-.dark .elevated-xs { box-shadow: var(--shadow-xs); }
-.dark .elevated-sm { box-shadow: var(--shadow-sm); }
-.dark .elevated-md { box-shadow: var(--shadow-md); }
-.dark .elevated-lg { box-shadow: var(--shadow-lg); }
-.dark .elevated-xl { box-shadow: var(--shadow-xl); }
-
-/* ─── Glass surface (navbar, modals) ────────────────────────────────── */
-.glass {
-  background: color-mix(in srgb, var(--background) 80%, transparent);
-  backdrop-filter: blur(18px) saturate(165%);
-  -webkit-backdrop-filter: blur(18px) saturate(165%);
+.grain-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* ─── Date/time picker icon — dark mode ─────────────────────────────── */
-.dark input[type="date"]::-webkit-calendar-picker-indicator,
-.dark input[type="time"]::-webkit-calendar-picker-indicator {
-  filter: invert(0.75) brightness(0.95);
-  cursor: pointer;
-  opacity: 0.65;
+.dark .grain-overlay {
+  opacity: 0.07;
+  mix-blend-mode: soft-light;
 }
 
-/* ─── Reduced motion ─────────────────────────────────────────────────── */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -694,13 +1148,13 @@ button, [role="button"] {
     scroll-behavior: auto !important;
   }
 
+  html {
+    scroll-behavior: auto;
+  }
+
   .btn-lift:not(:disabled):hover,
   .btn-lift:not(:disabled):active,
-  .btn-icon:not(:disabled):hover,
-  .btn-icon:not(:disabled):active,
-  .btn-save-float:not(:disabled):hover,
-  .btn-save-float:not(:disabled):active {
+  .btn-icon:not(:disabled):active {
     transform: none !important;
-    box-shadow: none !important;
   }
 }

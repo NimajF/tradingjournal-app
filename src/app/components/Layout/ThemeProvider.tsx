@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react'
-import { type ColorTheme, DEFAULT_COLOR_THEME } from '@/lib/constants/themes'
+import { type ColorTheme, DEFAULT_COLOR_THEME, resolveColorTheme } from '@/lib/constants/themes'
 
 type Theme = 'light' | 'dark'
 
@@ -27,8 +27,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setTheme(initial)
     document.documentElement.classList.toggle('dark', initial === 'dark')
 
-    const storedColor = localStorage.getItem('color-theme') as ColorTheme | null
-    const initialColor: ColorTheme = storedColor ?? DEFAULT_COLOR_THEME
+    const storedColor = localStorage.getItem('color-theme')
+    const initialColor = resolveColorTheme(storedColor)
     setColorThemeState(initialColor)
     document.documentElement.setAttribute('data-theme', initialColor)
 

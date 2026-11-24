@@ -21,7 +21,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center px-4">
       <div className="w-full max-w-sm space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Sign In</h1>
+          <h1 className="text-[1.875rem] text-foreground">Sign in</h1>
           <p className="text-sm text-muted-fg">Access your trading journal</p>
         </div>
 
@@ -39,7 +39,7 @@ export default function LoginPage() {
                 type="email"
                 required
                 autoComplete="off"
-                className="w-full pl-9 pr-3 py-2 border border-border rounded-md bg-background text-foreground placeholder-subtle-fg"
+                className="w-full pl-9 pr-3 py-2 border border-border-base rounded-md bg-background text-foreground placeholder-subtle-fg"
                 placeholder="you@example.com"
               />
             </div>
@@ -61,7 +61,7 @@ export default function LoginPage() {
                 type="password"
                 required
                 autoComplete="current-password"
-                className="w-full pl-9 pr-3 py-2 border border-border rounded-md bg-background text-foreground placeholder-subtle-fg"
+                className="w-full pl-9 pr-3 py-2 border border-border-base rounded-md bg-background text-foreground placeholder-subtle-fg"
                 placeholder="••••••••"
               />
             </div>
@@ -69,7 +69,7 @@ export default function LoginPage() {
 
           {/* Error */}
           {error && (
-            <div className="rounded-md bg-red-500/10 p-3 text-sm text-red-500">
+            <div className="rounded-md bg-loss-muted p-3 text-sm text-loss-muted-fg">
               {error}
             </div>
           )}
@@ -80,7 +80,7 @@ export default function LoginPage() {
             disabled={isPending}
             className="w-full bg-accent hover:bg-accent-hover text-accent-fg font-medium py-2 rounded-md disabled:opacity-50 transition-colors"
           >
-            {isPending ? "Signing in..." : "Sign In"}
+            {isPending ? "Signing in…" : "Sign in"}
           </button>
         </form>
 

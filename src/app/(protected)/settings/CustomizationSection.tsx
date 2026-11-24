@@ -11,7 +11,7 @@ export default function CustomizationSection() {
   return (
     <>
       <div className="pb-4 mb-6 border-b border-border">
-        <h2 className="text-sm font-semibold text-foreground">Customization</h2>
+        <h2 data-slot="section-title" className="text-sm font-semibold text-foreground">Customization</h2>
         <p className="text-xs text-muted-fg mt-0.5">Appearance preferences</p>
       </div>
 
@@ -19,7 +19,7 @@ export default function CustomizationSection() {
         <div>
           <p className="text-xs font-semibold text-muted-fg mb-1">Appearance</p>
 
-          <div className="flex items-center justify-between gap-6 py-4 border-b border-border">
+          <div className="flex items-center justify-between gap-6 py-4 border-b border-border-muted">
             <div>
               <p className="text-sm font-medium text-foreground">Mode</p>
               <p className="text-xs text-muted-fg mt-0.5">
@@ -33,33 +33,46 @@ export default function CustomizationSection() {
             <ThemeToggle />
           </div>
 
-          <div className="flex items-center justify-between gap-6 py-4">
+          <div className="py-4">
             <div>
               <p className="text-sm font-medium text-foreground">Color theme</p>
               <p className="text-xs text-muted-fg mt-0.5">
-                Accent color and surface tones — dark mode only
+                Canvas, surfaces, action and trade colors. Dark mode only.
               </p>
             </div>
-            <div className="flex items-center gap-2.5 shrink-0">
+            <div className="mt-3 flex flex-wrap gap-2">
               {THEMES.map((t) => {
                 const active = colorTheme === t.id;
                 return (
                   <button
                     key={t.id}
-                    title={t.label}
+                    type="button"
+                    // Each swatch carries its own palette, so the three dots
+                    // read their colours from themes.css rather than from hex
+                    // duplicated here.
+                    data-theme={t.id}
                     aria-label={`${t.label} theme`}
                     aria-pressed={active}
                     onClick={() => setColorTheme(t.id)}
                     disabled={mounted && theme !== "dark"}
-                    className="w-5 h-5 rounded-full transition-transform duration-150 hover:scale-110 focus-visible:outline-none disabled:opacity-30 disabled:pointer-events-none"
-                    style={{
-                      backgroundColor: t.accent,
-                      transform: active ? "scale(1.15)" : undefined,
-                      boxShadow: active
-                        ? `0 0 0 2px var(--surface-overlay), 0 0 0 3.5px ${t.accent}`
-                        : undefined,
-                    }}
-                  />
+                    // The chip is painted in its own palette's canvas, edge and
+                    // ink, so each option previews the whole theme.
+                    className={[
+                      "inline-flex items-center gap-2 rounded-md border px-2.5 py-1.5 text-xs font-medium transition-[box-shadow,border-color] duration-150",
+                      "bg-(--p-surface) text-(--p-foreground) border-(--p-border-base)",
+                      "disabled:opacity-40 disabled:pointer-events-none",
+                      active
+                        ? "ring-2 ring-accent ring-offset-2 ring-offset-surface"
+                        : "hover:border-(--p-muted-fg)",
+                    ].join(" ")}
+                  >
+                    <span className="flex items-center gap-1" aria-hidden="true">
+                      <span className="h-3 w-3 rounded-full bg-(--p-accent)" />
+                      <span className="h-2 w-2 rounded-full bg-(--p-profit)" />
+                      <span className="h-2 w-2 rounded-full bg-(--p-loss)" />
+                    </span>
+                    {t.label}
+                  </button>
                 );
               })}
             </div>
