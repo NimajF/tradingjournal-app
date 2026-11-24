@@ -2,7 +2,6 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { createJournal } from "@/app/actions/journal";
 
 export async function signUp(
   email: string,
@@ -37,13 +36,6 @@ export async function signUp(
     });
     if (profileError) {
       return { error: profileError.message };
-    }
-    const { error: journalError } = await createJournal({
-      name: "My Journal",
-      description: "My trading journal",
-    });
-    if (journalError) {
-      return { error: journalError };
     }
   }
 
