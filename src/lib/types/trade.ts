@@ -19,7 +19,7 @@ export type Trade = {
   currency: string;
   profit: number;
   result: TradeResult;
-  type: TradeKind;
+  trade_type: TradeKind;
   notes: NoteContent | null;
 };
 

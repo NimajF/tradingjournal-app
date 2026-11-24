@@ -10,6 +10,7 @@ export type Newsletter = {
   cover_image_public_id: string | null;
   created_at: string;
   is_favorite: boolean;
+  is_public: boolean;
 };
 
 export type NewsletterImage = {
@@ -37,3 +38,5 @@ export type UpdateNewsletterInput = {
   cover_image_url?: string | null;
   cover_image_public_id?: string | null;
 };
+
+export type FavoriteNewsletter = { id: string; title: string };

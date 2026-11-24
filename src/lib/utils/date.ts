@@ -5,6 +5,11 @@ export function toDateKey(date: Date): string {
   const d = String(date.getDate()).padStart(2, "0");
   return `${y}-${m}-${d}`;
 }
+// "2026-11-19" -> Local midnight of that day, in the local timezone. This is used to convert the date keys back to Date objects for display.
+export function parseDateKey(value: string): Date {
+  const [y, m, d] = value.slice(0, 10).split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
 
 // Given a year and month, returns a 2D array of Date objects representing the weeks in that month, including padding days from the previous and next months to fill out the weeks. Each inner array represents a week, starting on Sunday and ending on Saturday.
 export function getCalendarWeeks(year: number, month: number): Date[][] {
