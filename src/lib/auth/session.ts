@@ -29,13 +29,14 @@ export const getOptionalUser = cache(async () => {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("username, avatar_url")
+    .select("username, avatar_url, display_name")
     .eq("id", user.id)
     .single();
   return {
     id: user.id,
     email: user.email ?? "",
     username: profile?.username ?? null,
+    displayName: profile?.display_name ?? null,
     avatarUrl: profile?.avatar_url ?? null,
     emailConfirmedAt: user.email_confirmed_at,
   };

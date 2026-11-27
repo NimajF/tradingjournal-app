@@ -22,7 +22,8 @@ export default function RegisterPage() {
     const emailError = validateEmail(email);
     if (emailError) return emailError;
 
-    const usernameError = validateUsername(username);
+    const normalizedUsername = username.trim().toLowerCase();
+    const usernameError = validateUsername(normalizedUsername);
     if (usernameError) return usernameError;
 
     const passwordError = validatePassword(password);
